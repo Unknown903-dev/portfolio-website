@@ -697,3 +697,55 @@
       </div>
     </div>
   </div>
+  <main class="screen">
+    <div class="top-bar">
+      <p>PLAYER: ALEX</p>
+      <p>LEVEL: 4</p>
+      <p>XP: 850 / 1000</p>
+    </div>
+
+    <h1 class="title">PLAYER ONE: ALEX</h1>
+    <p class="subtitle">Full-Stack Developer | Cybersecurity | Cloud-Backed Apps</p>
+
+    <nav class="menu">
+      <button onclick="showSection('bio')">Player Bio</button>
+      <button onclick="showSection('quests')">Completed Quests</button>
+      <button onclick="showSection('stats')">Player Stats</button>
+      <button onclick="showSection('contact')">Send Message</button>
+    </nav>
+
+    <section id="bio" class="panel">
+      <h2>Player Bio</h2>
+      <p>
+        I am a Computer Science and Engineering student at UC Merced focused on full-stack development, cybersecurity, and cloud-backed applications. I enjoy building practical software that connects secure frontend experiences with reliable backend systems.
+      </p>
+      <p>
+        My experience includes leading a team-based mobile app capstone, building deployed web projects, researching AI prompt injection security, analyzing network traffic with cybersecurity tools, and developing applications with JavaScript, Python, React, React Native, Cloudflare, Firebase, and database-backed APIs.
+      </p>
+    </section>
+
+    <section id="quests" class="panel hidden">
+      <h2>Completed Quests</h2>
+      <div class="project-filters">
+        <button class="filter-button active" onclick="filterProjects('all', this)">All</button>
+        <button class="filter-button" onclick="filterProjects('fullstack', this)">Full-Stack</button>
+        <button class="filter-button" onclick="filterProjects('cybersecurity', this)">Cybersecurity</button>
+        <button class="filter-button" onclick="filterProjects('frontend', this)">Frontend</button>
+        <button class="filter-button" onclick="filterProjects('research', this)">Research</button>
+        <button class="filter-button" onclick="filterProjects('coursework', this)">Coursework</button>
+      </div>
+
+      <div class="quests">
+        <div class="quest-card featured-project" data-category="fullstack">
+          <h3>Production Tracking Mobile App</h3>
+          <p><strong>Type:</strong> Industry Capstone / Group Mobile App</p>
+          <p><strong>Role:</strong> Team Lead, Full-Stack Developer, DevOps, and QA Tester</p>
+          <p>Led full-stack development for a role-based production tracking app that improved task visibility, time tracking, project management, and reporting across employee, manager, and executive workflows.</p>
+          <p><strong>Tech:</strong> React Native, TypeScript, Cloudflare Workers, D1, R2, Firebase, Google SSO, Python/FastAPI, TestFlight</p>
+
+          <button class="more-button" onclick="toggleMore('production-more')">More</button>
+
+          <div id="production-more" class="more-details hidden">
+            <p><strong>Key Contributions:</strong> Built and connected frontend screens to backend APIs, implemented QR clock-in, employee task flows, templates, keychain session storage, push notifications, management navigation, LLM report integration, company-based data separation, UI refactors, QA testing, and deployment preparation.</p>
+          </div>
+        </div>
