@@ -6,6 +6,36 @@
   <title>Player One Portfolio</title>
 
   <style>
+    /* =========================
+       Global Theme
+    ========================= */
+    :root {
+      --bg-dark: #02030a;
+      --bg-panel: rgba(7, 9, 24, 0.58);
+      --bg-card: rgba(17, 17, 34, 0.95);
+      --bg-card-dark: rgba(7, 9, 24, 0.92);
+
+      --text-main: #ffffff;
+      --text-muted: #dddddd;
+      --text-dim: #888888;
+
+      --cyan: #36f9f6;
+      --yellow: #f8f32b;
+      --pink: #ff2a6d;
+      --orange: #ff7b2c;
+      --blue: #49d7ff;
+
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 22px;
+      --radius-xl: 28px;
+      --radius-pill: 999px;
+
+      --shadow-cyan: 0 0 18px rgba(54, 249, 246, 0.35);
+      --shadow-pink: 0 0 14px rgba(255, 42, 109, 0.18);
+      --shadow-card: 0 18px 45px rgba(0, 0, 0, 0.35);
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -14,14 +44,28 @@
 
     body {
       min-height: 100vh;
-      background: radial-gradient(circle at top, #0f1838 0%, #060914 55%, #02030a 100%);
-      color: #ffffff;
+      color: var(--text-main);
       font-family: "Courier New", monospace;
       overflow-x: hidden;
-      position: relative;
+      background: radial-gradient(circle at top, #0f1838 0%, #060914 55%, var(--bg-dark) 100%);
     }
 
-    /* Fake Galaga gameplay background */
+    a,
+    button {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       Fake Galaga Background
+    ========================= */
     .arcade-background {
       position: fixed;
       inset: 0;
@@ -30,7 +74,7 @@
       background:
         radial-gradient(circle at 20% 15%, rgba(91, 167, 255, 0.12), transparent 18%),
         radial-gradient(circle at 80% 25%, rgba(255, 77, 166, 0.12), transparent 18%),
-        linear-gradient(180deg, #0b1230 0%, #050814 60%, #02030a 100%);
+        linear-gradient(180deg, #0b1230 0%, #050814 60%, var(--bg-dark) 100%);
     }
 
     .game-scene {
@@ -49,21 +93,21 @@
     }
 
     .starfield {
-      background-image: radial-gradient(circle, rgba(255,255,255,0.9) 0 1px, transparent 1.5px);
+      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 1px, transparent 1.5px);
       background-size: 90px 90px;
       animation: starDrift 18s linear infinite;
       opacity: 0.7;
     }
 
     .starfield-two {
-      background-image: radial-gradient(circle, rgba(120,220,255,0.9) 0 1px, transparent 1.5px);
+      background-image: radial-gradient(circle, rgba(120, 220, 255, 0.9) 0 1px, transparent 1.5px);
       background-size: 140px 140px;
       animation: starDrift 30s linear infinite reverse;
       opacity: 0.45;
     }
 
     .starfield-three {
-      background-image: radial-gradient(circle, rgba(255,210,90,0.85) 0 1px, transparent 1.5px);
+      background-image: radial-gradient(circle, rgba(255, 210, 90, 0.85) 0 1px, transparent 1.5px);
       background-size: 200px 200px;
       animation: starDrift 42s linear infinite;
       opacity: 0.3;
@@ -73,14 +117,14 @@
       position: absolute;
       top: 18px;
       left: 22px;
+      padding: 10px 12px;
       color: #ffe44d;
       font-size: 14px;
       line-height: 1.4;
       text-shadow: 0 0 10px rgba(255, 228, 77, 0.75);
       background: rgba(7, 10, 24, 0.45);
       border: 1px solid rgba(255, 228, 77, 0.25);
-      border-radius: 12px;
-      padding: 10px 12px;
+      border-radius: var(--radius-md);
     }
 
     .enemy-fleet {
@@ -93,12 +137,16 @@
       animation: fleetMove 7s ease-in-out infinite;
     }
 
-    .enemy {
+    .enemy,
+    .diver {
       position: absolute;
       width: 34px;
       height: 28px;
-      background: linear-gradient(180deg, #ff5bcb, #8c38ff);
       clip-path: polygon(50% 0%, 80% 15%, 100% 45%, 82% 100%, 60% 78%, 40% 78%, 18% 100%, 0% 45%, 20% 15%);
+    }
+
+    .enemy {
+      background: linear-gradient(180deg, #ff5bcb, #8c38ff);
       box-shadow: 0 0 14px rgba(255, 91, 203, 0.6);
       animation: enemyPulse 1.1s ease-in-out infinite alternate;
     }
@@ -107,38 +155,18 @@
     .enemy::after {
       content: "";
       position: absolute;
+      top: 6px;
       width: 6px;
       height: 10px;
       background: #7cfbff;
-      border-radius: 6px;
-      top: 6px;
+      border-radius: var(--radius-pill);
     }
 
     .enemy::before { left: 8px; }
     .enemy::after { right: 8px; }
 
-    .e1 { left: 20px; top: 0; }
-    .e2 { left: 80px; top: 0; }
-    .e3 { left: 140px; top: 0; }
-    .e4 { left: 200px; top: 0; }
-    .e5 { left: 260px; top: 0; }
-    .e6 { left: 320px; top: 0; }
-    .e7 { left: 50px; top: 52px; }
-    .e8 { left: 110px; top: 52px; }
-    .e9 { left: 170px; top: 52px; }
-    .e10 { left: 230px; top: 52px; }
-    .e11 { left: 290px; top: 52px; }
-    .e12 { left: 80px; top: 104px; }
-    .e13 { left: 140px; top: 104px; }
-    .e14 { left: 200px; top: 104px; }
-    .e15 { left: 260px; top: 104px; }
-
     .diver {
-      position: absolute;
-      width: 34px;
-      height: 28px;
       background: linear-gradient(180deg, #57f0ff, #2d6bff);
-      clip-path: polygon(50% 0%, 80% 15%, 100% 45%, 82% 100%, 60% 78%, 40% 78%, 18% 100%, 0% 45%, 20% 15%);
       box-shadow: 0 0 14px rgba(87, 240, 255, 0.65);
     }
 
@@ -165,63 +193,63 @@
       animation: shipFloat 2s ease-in-out infinite;
     }
 
-    .player-ship .wing-left,
-    .player-ship .wing-right,
-    .player-ship .core,
-    .player-ship .cockpit {
+    .ship-part {
       position: absolute;
     }
 
-    .player-ship .wing-left {
+    .wing-left,
+    .wing-right {
+      bottom: 4px;
+      width: 18px;
+      height: 16px;
+      background: var(--blue);
+      box-shadow: 0 0 12px rgba(73, 215, 255, 0.65);
+    }
+
+    .wing-left {
       left: 0;
-      bottom: 4px;
-      width: 18px;
-      height: 16px;
-      background: #49d7ff;
       clip-path: polygon(100% 0%, 100% 100%, 0% 55%);
-      box-shadow: 0 0 12px rgba(73, 215, 255, 0.65);
     }
 
-    .player-ship .wing-right {
+    .wing-right {
       right: 0;
-      bottom: 4px;
-      width: 18px;
-      height: 16px;
-      background: #49d7ff;
       clip-path: polygon(0% 0%, 100% 55%, 0% 100%);
-      box-shadow: 0 0 12px rgba(73, 215, 255, 0.65);
     }
 
-    .player-ship .core {
+    .ship-core {
       left: 14px;
       bottom: 0;
       width: 16px;
       height: 28px;
-      background: linear-gradient(180deg, #ffe44d, #ff7b2c);
+      background: linear-gradient(180deg, #ffe44d, var(--orange));
       clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
       box-shadow: 0 0 14px rgba(255, 228, 77, 0.8);
     }
 
-    .player-ship .cockpit {
+    .cockpit {
       left: 17px;
       bottom: 16px;
       width: 10px;
       height: 10px;
-      border-radius: 50%;
       background: #ffffff;
-      box-shadow: 0 0 8px rgba(255,255,255,0.8);
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
+
+    .player-shot,
+    .enemy-shot {
+      position: absolute;
+      width: 4px;
+      border-radius: var(--radius-pill);
     }
 
     .player-shot {
-      position: absolute;
       bottom: 88px;
       left: 50%;
-      width: 4px;
       height: 70px;
       transform: translateX(-50%);
-      background: linear-gradient(180deg, rgba(124,251,255,0), #7cfbff, rgba(124,251,255,0));
+      background: linear-gradient(180deg, rgba(124, 251, 255, 0), #7cfbff, rgba(124, 251, 255, 0));
       box-shadow: 0 0 10px rgba(124, 251, 255, 0.95);
-      border-radius: 999px;
       animation: playerShot 0.8s linear infinite;
     }
 
@@ -230,12 +258,9 @@
     }
 
     .enemy-shot {
-      position: absolute;
-      width: 4px;
       height: 54px;
-      background: linear-gradient(180deg, rgba(255,120,80,0), #ff8555, rgba(255,120,80,0));
+      background: linear-gradient(180deg, rgba(255, 120, 80, 0), #ff8555, rgba(255, 120, 80, 0));
       box-shadow: 0 0 10px rgba(255, 133, 85, 0.85);
-      border-radius: 999px;
     }
 
     .enemy-shot.one {
@@ -263,64 +288,67 @@
       animation: explodePulse 1.2s ease-in-out infinite;
     }
 
+    /* =========================
+       Layout
+    ========================= */
     .screen {
+      position: relative;
       width: 92%;
       max-width: 1120px;
       margin: 40px auto;
+      padding: 34px;
+      overflow: hidden;
+      background: var(--bg-panel);
       border: 1px solid rgba(54, 249, 246, 0.35);
+      border-radius: var(--radius-xl);
       box-shadow:
         0 0 45px rgba(54, 249, 246, 0.16),
         0 20px 80px rgba(0, 0, 0, 0.55),
         inset 0 0 35px rgba(255, 255, 255, 0.03);
-      border-radius: 28px;
-      padding: 34px;
-      background: rgba(7, 9, 24, 0.58);
       backdrop-filter: blur(13px);
-      position: relative;
-      overflow: hidden;
     }
 
     .screen::before {
       content: "";
       position: absolute;
       inset: 0;
-      border-radius: 28px;
       padding: 1px;
+      pointer-events: none;
+      border-radius: var(--radius-xl);
       background: linear-gradient(135deg, rgba(54, 249, 246, 0.8), rgba(255, 42, 109, 0.45), rgba(248, 243, 43, 0.35));
       mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       mask-composite: exclude;
-      pointer-events: none;
     }
 
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border: 1px solid rgba(54, 249, 246, 0.22);
-      padding: 14px 18px;
       margin-bottom: 34px;
-      color: #f8f32b;
+      padding: 14px 18px;
+      color: var(--yellow);
       background: rgba(255, 255, 255, 0.035);
-      border-radius: 18px;
+      border: 1px solid rgba(54, 249, 246, 0.22);
+      border-radius: var(--radius-md);
       box-shadow: inset 0 0 18px rgba(54, 249, 246, 0.05);
     }
 
     .title {
-      text-align: center;
-      font-size: clamp(34px, 6vw, 64px);
-      letter-spacing: 3px;
-      color: #ffffff;
-      text-shadow: 0 0 18px rgba(54, 249, 246, 0.75), 0 0 34px rgba(255, 42, 109, 0.45);
       margin-bottom: 10px;
+      color: var(--text-main);
+      font-size: clamp(34px, 6vw, 64px);
       line-height: 1;
+      letter-spacing: 3px;
+      text-align: center;
+      text-shadow: 0 0 18px rgba(54, 249, 246, 0.75), 0 0 34px rgba(255, 42, 109, 0.45);
     }
 
     .subtitle {
-      text-align: center;
-      color: #36f9f6;
       margin-bottom: 34px;
+      color: var(--cyan);
       font-size: 18px;
       letter-spacing: 1px;
+      text-align: center;
       text-shadow: 0 0 12px rgba(54, 249, 246, 0.5);
     }
 
@@ -331,20 +359,56 @@
       margin-bottom: 32px;
     }
 
+    .panel {
+      margin-bottom: 25px;
+      padding: 26px;
+      background: linear-gradient(145deg, rgba(10, 13, 32, 0.88), rgba(17, 17, 34, 0.72));
+      border: 1px solid rgba(54, 249, 246, 0.28);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card), inset 0 0 22px rgba(255, 255, 255, 0.025);
+    }
+
+    .panel h2 {
+      margin-bottom: 15px;
+      color: var(--yellow);
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(248, 243, 43, 0.55);
+    }
+
+    .panel p {
+      margin-bottom: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    footer {
+      margin-top: 30px;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    /* =========================
+       Buttons and Links
+    ========================= */
+    .menu button,
+    .filter-button,
+    .more-button,
+    .repo-link,
+    .contact-button {
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+    }
+
     .menu button {
-      background: linear-gradient(135deg, rgba(17, 17, 34, 0.95), rgba(20, 25, 54, 0.92));
-      color: #ffffff;
-      border: 1px solid rgba(54, 249, 246, 0.45);
-      padding: 16px;
-      font-family: "Courier New", monospace;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 16px;
-      box-shadow: 0 0 18px rgba(54, 249, 246, 0.13);
-      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
       position: relative;
       overflow: hidden;
+      padding: 16px;
+      color: var(--text-main);
+      font-size: 17px;
+      font-weight: bold;
+      background: linear-gradient(135deg, rgba(17, 17, 34, 0.95), rgba(20, 25, 54, 0.92));
+      border: 1px solid rgba(54, 249, 246, 0.45);
+      border-radius: var(--radius-md);
+      box-shadow: 0 0 18px rgba(54, 249, 246, 0.13);
     }
 
     .menu button::before {
@@ -360,34 +424,130 @@
       transform: translateX(100%);
     }
 
+    .menu button:hover,
+    .repo-link:hover,
+    .contact-button:hover,
+    .more-button:hover,
+    .filter-button:hover,
+    .filter-button.active {
+      transform: translateY(-2px);
+    }
+
     .menu button:hover {
-      border-color: #f8f32b;
+      border-color: var(--yellow);
       box-shadow: 0 0 22px rgba(248, 243, 43, 0.28), 0 0 30px rgba(54, 249, 246, 0.16);
-      transform: translateY(-3px);
     }
 
-    .panel {
-      border: 1px solid rgba(54, 249, 246, 0.28);
-      border-radius: 22px;
-      padding: 26px;
-      margin-bottom: 25px;
-      background: linear-gradient(145deg, rgba(10, 13, 32, 0.88), rgba(17, 17, 34, 0.72));
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35), inset 0 0 22px rgba(255, 255, 255, 0.025);
+    .filter-button {
+      padding: 10px 14px;
+      color: var(--text-main);
+      font-weight: bold;
+      background: rgba(17, 17, 34, 0.9);
+      border: 1px solid rgba(54, 249, 246, 0.42);
+      border-radius: var(--radius-pill);
+      box-shadow: 0 0 10px rgba(54, 249, 246, 0.18);
     }
 
-    .panel h2 {
-      color: #f8f32b;
-      margin-bottom: 15px;
-      letter-spacing: 1px;
-      text-shadow: 0 0 10px rgba(248, 243, 43, 0.55);
+    .filter-button:hover,
+    .filter-button.active,
+    .repo-link,
+    .contact-button {
+      color: #050510;
+      background: linear-gradient(135deg, var(--cyan), var(--yellow));
     }
 
-    .panel p {
-      line-height: 1.6;
-      color: #dddddd;
-      margin-bottom: 12px;
+    .repo-link,
+    .contact-button {
+      display: inline-block;
+      margin-top: 10px;
+      margin-right: 8px;
+      padding: 10px 14px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 0 12px rgba(54, 249, 246, 0.32);
     }
 
+    .contact-button {
+      margin-top: 15px;
+      padding: 12px 18px;
+      box-shadow: 0 0 14px rgba(248, 243, 43, 0.32);
+    }
+
+    .more-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 14px;
+      color: #050510;
+      font-weight: bold;
+      background: var(--pink);
+      border: none;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 0 10px var(--pink);
+    }
+
+    .more-button:hover {
+      background: var(--yellow);
+      box-shadow: 0 0 12px var(--yellow);
+    }
+
+    /* =========================
+       Projects
+    ========================= */
+    .project-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .quests {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .quest-card {
+      padding: 20px;
+      background: linear-gradient(145deg, var(--bg-card), var(--bg-card-dark));
+      border: 1px solid rgba(255, 42, 109, 0.34);
+      border-radius: 20px;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.35), var(--shadow-pink);
+      transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
+    }
+
+    .quest-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(54, 249, 246, 0.68);
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.45), 0 0 24px rgba(54, 249, 246, 0.18);
+    }
+
+    .quest-card h3 {
+      margin-bottom: 10px;
+      color: var(--cyan);
+      letter-spacing: 0.5px;
+    }
+
+    .quest-card p {
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .featured-project {
+      border-color: rgba(248, 243, 43, 0.65);
+      box-shadow: 0 0 24px rgba(248, 243, 43, 0.18), 0 18px 45px rgba(0, 0, 0, 0.4);
+    }
+
+    .more-details {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(54, 249, 246, 0.5);
+    }
+
+    /* =========================
+       Stats and Inventory
+    ========================= */
     .player-card {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -401,20 +561,20 @@
     .stat label {
       display: block;
       margin-bottom: 5px;
-      color: #ffffff;
+      color: var(--text-main);
     }
 
     .bar {
       height: 20px;
-      border: 2px solid #ffffff;
-      border-radius: 20px;
       overflow: hidden;
       background: #050510;
+      border: 2px solid var(--text-main);
+      border-radius: var(--radius-pill);
     }
 
     .fill {
       height: 100%;
-      background: linear-gradient(90deg, #36f9f6, #ff2a6d);
+      background: linear-gradient(90deg, var(--cyan), var(--pink));
     }
 
     .inventory {
@@ -425,261 +585,124 @@
     }
 
     .inventory-card {
-      border: 2px solid #ff2a6d;
-      border-radius: 12px;
       padding: 16px;
-      background: #111122;
+      background: var(--bg-card);
+      border: 2px solid var(--pink);
+      border-radius: 12px;
       box-shadow: 0 0 10px rgba(255, 42, 109, 0.45);
     }
 
     .inventory-card h3 {
-      color: #36f9f6;
       margin-bottom: 10px;
+      color: var(--cyan);
     }
 
-    .inventory-card p {
-      color: #dddddd;
-      line-height: 1.5;
-    }
-
-    .project-filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .filter-button {
-      background: rgba(17, 17, 34, 0.9);
-      color: #ffffff;
-      border: 1px solid rgba(54, 249, 246, 0.42);
-      padding: 10px 14px;
-      font-family: "Courier New", monospace;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 999px;
-      box-shadow: 0 0 10px rgba(54, 249, 246, 0.18);
-      transition: 0.2s;
-    }
-
-    .filter-button:hover,
-    .filter-button.active {
-      background: linear-gradient(135deg, #36f9f6, #f8f32b);
-      color: #050510;
-      transform: translateY(-2px);
-      box-shadow: 0 0 18px rgba(54, 249, 246, 0.35);
-    }
-
-    .quests {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .quest-card {
-      border: 1px solid rgba(255, 42, 109, 0.34);
-      border-radius: 20px;
-      padding: 20px;
-      background: linear-gradient(145deg, rgba(17, 17, 34, 0.95), rgba(7, 9, 24, 0.92));
-      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.35), 0 0 14px rgba(255, 42, 109, 0.12);
-      transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
-    }
-
-    .quest-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(54, 249, 246, 0.68);
-      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.45), 0 0 24px rgba(54, 249, 246, 0.18);
-    }
-
-    .quest-card h3 {
-      color: #36f9f6;
-      margin-bottom: 10px;
-      letter-spacing: 0.5px;
-    }
-
-    .quest-card p {
-      line-height: 1.5;
-      color: #dddddd;
-      margin-bottom: 8px;
-    }
-
-    .featured-project {
-      border-color: rgba(248, 243, 43, 0.65);
-      box-shadow: 0 0 24px rgba(248, 243, 43, 0.18), 0 18px 45px rgba(0, 0, 0, 0.4);
-      position: relative;
-    }
-
-
-    .repo-link {
-      display: inline-block;
-      margin-top: 10px;
-      margin-right: 8px;
-      color: #050510;
-      background: linear-gradient(135deg, #36f9f6, #f8f32b);
-      padding: 10px 14px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 0 12px rgba(54, 249, 246, 0.32);
-      transition: 0.2s;
-    }
-
-    .repo-link:hover {
-      box-shadow: 0 0 18px rgba(248, 243, 43, 0.45);
-      transform: translateY(-2px);
-    }
-
-    .more-button {
-      display: inline-block;
-      margin-top: 10px;
-      color: #050510;
-      background: #ff2a6d;
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: none;
-      font-family: "Courier New", monospace;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 0 10px #ff2a6d;
-      transition: 0.2s;
-    }
-
-    .more-button:hover {
-      background: #f8f32b;
-      box-shadow: 0 0 12px #f8f32b;
-      transform: translateY(-2px);
-    }
-
-    .more-details {
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid rgba(54, 249, 246, 0.5);
-    }
-
-    .contact-button {
-      display: inline-block;
-      margin-top: 15px;
-      margin-right: 10px;
-      padding: 12px 18px;
-      background: linear-gradient(135deg, #f8f32b, #36f9f6);
-      color: #050510;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 999px;
-      box-shadow: 0 0 14px rgba(248, 243, 43, 0.32);
-      transition: 0.2s;
-    }
-
-    .contact-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 22px rgba(54, 249, 246, 0.45);
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      color: #888888;
-    }
-
+    /* =========================
+       Animations
+    ========================= */
     @keyframes starDrift {
-        from { transform: translateY(0); }
-        to { transform: translateY(40px); }
-        }
+      from { transform: translateY(0); }
+      to { transform: translateY(40px); }
+    }
 
-        @keyframes fleetMove {
-        0%, 100% { transform: translateX(-50%) translateY(0); }
-        25% { transform: translateX(-44%) translateY(6px); }
-        50% { transform: translateX(-56%) translateY(14px); }
-        75% { transform: translateX(-46%) translateY(8px); }
-        }
+    @keyframes fleetMove {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      25% { transform: translateX(-44%) translateY(6px); }
+      50% { transform: translateX(-56%) translateY(14px); }
+      75% { transform: translateX(-46%) translateY(8px); }
+    }
 
-        @keyframes enemyPulse {
-        from { transform: scale(1); }
-        to { transform: scale(1.06); }
-        }
+    @keyframes enemyPulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.06); }
+    }
 
-        @keyframes diveLeft {
-        0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-        12% { opacity: 1; }
-        40% { transform: translate(80px, 140px) rotate(40deg); opacity: 1; }
-        75% { transform: translate(180px, 360px) rotate(140deg); opacity: 1; }
-        100% { transform: translate(220px, 520px) rotate(220deg); opacity: 0; }
-        }
+    @keyframes diveLeft {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      12% { opacity: 1; }
+      40% { transform: translate(80px, 140px) rotate(40deg); opacity: 1; }
+      75% { transform: translate(180px, 360px) rotate(140deg); opacity: 1; }
+      100% { transform: translate(220px, 520px) rotate(220deg); opacity: 0; }
+    }
 
-        @keyframes diveRight {
-        0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-        12% { opacity: 1; }
-        40% { transform: translate(-80px, 140px) rotate(-40deg); opacity: 1; }
-        75% { transform: translate(-180px, 360px) rotate(-140deg); opacity: 1; }
-        100% { transform: translate(-220px, 520px) rotate(-220deg); opacity: 0; }
-        }
+    @keyframes diveRight {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      12% { opacity: 1; }
+      40% { transform: translate(-80px, 140px) rotate(-40deg); opacity: 1; }
+      75% { transform: translate(-180px, 360px) rotate(-140deg); opacity: 1; }
+      100% { transform: translate(-220px, 520px) rotate(-220deg); opacity: 0; }
+    }
 
-        @keyframes shipFloat {
-        0%, 100% { transform: translateX(-50%) translateY(0); }
-        50% { transform: translateX(-50%) translateY(-6px); }
-        }
+    @keyframes shipFloat {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-6px); }
+    }
 
-        @keyframes playerShot {
-        0% { transform: translateX(-50%) translateY(0); opacity: 0; }
-        10% { opacity: 1; }
-        100% { transform: translateX(-50%) translateY(-460px); opacity: 0; }
-        }
+    @keyframes playerShot {
+      0% { transform: translateX(-50%) translateY(0); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateX(-50%) translateY(-460px); opacity: 0; }
+    }
 
-        @keyframes enemyShot {
-        0% { transform: translateY(0); opacity: 0; }
-        12% { opacity: 1; }
-        100% { transform: translateY(380px); opacity: 0; }
-        }
+    @keyframes enemyShot {
+      0% { transform: translateY(0); opacity: 0; }
+      12% { opacity: 1; }
+      100% { transform: translateY(380px); opacity: 0; }
+    }
 
-        @keyframes explodePulse {
-        0%, 100% { transform: scale(0.7); opacity: 0.45; }
-        50% { transform: scale(1.25); opacity: 1; }
-        }
+    @keyframes explodePulse {
+      0%, 100% { transform: scale(0.7); opacity: 0.45; }
+      50% { transform: scale(1.25); opacity: 1; }
+    }
 
-        @media (max-width: 700px) {
-        .title { font-size: 32px; }
-        .player-card { grid-template-columns: 1fr; }
-        .top-bar { flex-direction: column; gap: 10px; }
-        .game-scene { opacity: 0.55; }
-        .enemy-fleet { transform: translateX(-50%) scale(0.72); }
-        }
-    </style>
+    /* =========================
+       Responsive Layout
+    ========================= */
+    @media (max-width: 700px) {
+      .screen {
+        width: 94%;
+        padding: 24px;
+      }
+
+      .title {
+        font-size: 32px;
+      }
+
+      .top-bar,
+      .player-card {
+        grid-template-columns: 1fr;
+      }
+
+      .top-bar {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .game-scene {
+        opacity: 0.55;
+      }
+
+      .enemy-fleet {
+        transform: translateX(-50%) scale(0.72);
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div class="arcade-background">
+  <div class="arcade-background" aria-hidden="true">
     <div class="game-scene">
       <div class="starfield"></div>
       <div class="starfield-two"></div>
       <div class="starfield-three"></div>
 
       <div class="galaga-hud">
-        SCORE 03190<br>
-        HI-SCORE 12000<br>
+        SCORE 03190<br />
+        HI-SCORE 12000<br />
         STAGE 04
       </div>
 
-      <div class="enemy-fleet">
-        <div class="enemy e1"></div>
-        <div class="enemy e2"></div>
-        <div class="enemy e3"></div>
-        <div class="enemy e4"></div>
-        <div class="enemy e5"></div>
-        <div class="enemy e6"></div>
-        <div class="enemy e7"></div>
-        <div class="enemy e8"></div>
-        <div class="enemy e9"></div>
-        <div class="enemy e10"></div>
-        <div class="enemy e11"></div>
-        <div class="enemy e12"></div>
-        <div class="enemy e13"></div>
-        <div class="enemy e14"></div>
-        <div class="enemy e15"></div>
-      </div>
+      <div class="enemy-fleet" id="enemyFleet"></div>
 
       <div class="diver one"></div>
       <div class="diver two"></div>
@@ -690,188 +713,67 @@
       <div class="player-shot two"></div>
 
       <div class="player-ship">
-        <div class="wing-left"></div>
-        <div class="wing-right"></div>
-        <div class="core"></div>
-        <div class="cockpit"></div>
+        <div class="ship-part wing-left"></div>
+        <div class="ship-part wing-right"></div>
+        <div class="ship-part ship-core"></div>
+        <div class="ship-part cockpit"></div>
       </div>
     </div>
   </div>
+
   <main class="screen">
-    <div class="top-bar">
-      <p>PLAYER: ALEX</p>
-      <p>LEVEL: 4</p>
-      <p>XP: 850 / 1000</p>
-    </div>
+    <header>
+      <div class="top-bar">
+        <p>PLAYER: ALEX</p>
+        <p>LEVEL: 4</p>
+        <p>XP: 850 / 1000</p>
+      </div>
 
-    <h1 class="title">PLAYER ONE: ALEX</h1>
-    <p class="subtitle">Full-Stack Developer | Cybersecurity | Cloud-Backed Apps</p>
+      <h1 class="title">PLAYER ONE: ALEX</h1>
+      <p class="subtitle">Full-Stack Developer | Cybersecurity | Mobile & Cloud Systems</p>
+    </header>
 
-    <nav class="menu">
-      <button onclick="showSection('bio')">Player Bio</button>
-      <button onclick="showSection('quests')">Completed Quests</button>
-      <button onclick="showSection('stats')">Player Stats</button>
-      <button onclick="showSection('contact')">Send Message</button>
+    <nav class="menu" aria-label="Portfolio sections">
+      <button type="button" onclick="showSection('bio')">Player Bio</button>
+      <button type="button" onclick="showSection('quests')">Completed Quests</button>
+      <button type="button" onclick="showSection('stats')">Player Stats</button>
+      <button type="button" onclick="showSection('contact')">Send Message</button>
     </nav>
 
     <section id="bio" class="panel">
       <h2>Player Bio</h2>
       <p>
-        I am a Computer Science and Engineering student at UC Merced focused on full-stack development, cybersecurity, and cloud-backed applications. I enjoy building practical software that connects secure frontend experiences with reliable backend systems.
+        I am a Computer Science and Engineering student at UC Merced focused on full-stack development,
+        cybersecurity, and cloud-backed applications. I enjoy building practical software that connects
+        secure frontend experiences with reliable backend systems.
       </p>
       <p>
-        My experience includes leading a team-based mobile app capstone, building deployed web projects, researching AI prompt injection security, analyzing network traffic with cybersecurity tools, and developing applications with JavaScript, Python, React, React Native, Cloudflare, Firebase, and database-backed APIs.
+        My experience includes leading a team-based mobile app capstone, building deployed web projects,
+        researching AI prompt injection security, analyzing network traffic with cybersecurity tools, and
+        developing applications with JavaScript, Python, React, React Native, Cloudflare, Firebase, and
+        database-backed APIs.
       </p>
     </section>
 
     <section id="quests" class="panel hidden">
       <h2>Completed Quests</h2>
-      <div class="project-filters">
-        <button class="filter-button active" onclick="filterProjects('all', this)">All</button>
-        <button class="filter-button" onclick="filterProjects('fullstack', this)">Full-Stack</button>
-        <button class="filter-button" onclick="filterProjects('cybersecurity', this)">Cybersecurity</button>
-        <button class="filter-button" onclick="filterProjects('frontend', this)">Frontend</button>
-        <button class="filter-button" onclick="filterProjects('research', this)">Research</button>
-        <button class="filter-button" onclick="filterProjects('coursework', this)">Coursework</button>
-      </div>
-
-      <div class="quests">
-        <div class="quest-card featured-project" data-category="fullstack">
-          <h3>Production Tracking Mobile App</h3>
-          <p><strong>Type:</strong> Industry Capstone / Group Mobile App</p>
-          <p><strong>Role:</strong> Team Lead, Full-Stack Developer, DevOps, and QA Tester</p>
-          <p>Led full-stack development for a role-based production tracking app that improved task visibility, time tracking, project management, and reporting across employee, manager, and executive workflows.</p>
-          <p><strong>Tech:</strong> React Native, TypeScript, Cloudflare Workers, D1, R2, Firebase, Google SSO, Python/FastAPI, TestFlight</p>
-
-          <button class="more-button" onclick="toggleMore('production-more')">More</button>
-
-          <div id="production-more" class="more-details hidden">
-            <p><strong>Key Contributions:</strong> Built and connected frontend screens to backend APIs, implemented QR clock-in, employee task flows, templates, keychain session storage, push notifications, management navigation, LLM report integration, company-based data separation, UI refactors, QA testing, and deployment preparation.</p>
-          </div>
-        </div>
-
-        <div class="quest-card" data-category="research cybersecurity">
-          <h3>Research</h3>
-          <p><strong>Type:</strong> AI Security Research</p>
-          <p>Evaluated prompt injection robustness in an open-source instruction-tuned LLM by comparing attack success rates with and without a system policy prompt.</p>
-          <a class="repo-link" href="https://github.com/Unknown903-dev/Research" target="_blank">View Quest</a>
-        </div>
-
-        <div class="quest-card" data-category="frontend fullstack">
-          <h3>Mock Instagram Frontend</h3>
-          <p><strong>Type:</strong> React / Vite Frontend</p>
-          <p>A mock Instagram-style frontend built with React and Vite, combining the group frontend work into one project with pages, components, hooks, and routing.</p>
-          <a class="repo-link" href="https://github.com/eduardocastellon/mock-instagram-frontend" target="_blank">View Code</a>
-        </div>
-
-        <div class="quest-card" data-category="fullstack coursework">
-          <h3>Course Registration</h3>
-          <p><strong>Type:</strong> Deployed Web App</p>
-          <p>A course registration project that lets users interact with a class registration system through a deployed web interface.</p>
-          <a class="repo-link" href="https://github.com/Unknown903-dev/alexj_eduardo_amir" target="_blank">View Code</a>
-          <a class="repo-link" href="https://lab-8-course-registration-project-fall.onrender.com" target="_blank">Live Demo</a>
-        </div>
-
-        <div class="quest-card" data-category="cybersecurity coursework">
-          <h3>CodePath Cybersecurity Capstone</h3>
-          <p><strong>Type:</strong> Group Cybersecurity Capstone</p>
-          <p>Group capstone work from Cyber 101 and Cyber 102 covering password security, brute-force testing, MFA, password manager recommendations, CICIDS 2017 traffic analysis, Wireshark investigation, malicious IP detection, incident response, and recovery planning.</p>
-          <a class="repo-link" href="https://github.com/Unknown903-dev/Codepath" target="_blank">View Quest</a>
-        </div>
-
-        <div class="quest-card" data-category="cybersecurity frontend">
-          <h3>UC Merced Hub / Honeypot Project</h3>
-          <p><strong>Type:</strong> Deployed Web / Cybersecurity Project</p>
-          <p>Contributed to a deployed web project connected to UC Merced Hub, with work focused on honeypot/security experimentation and frontend functionality.</p>
-          <a class="repo-link" href="https://github.com/Unknown903-dev/honeypot" target="_blank">View Code</a>
-          <a class="repo-link" href="https://www.ucmercedhub.com" target="_blank">Live Site</a>
-        </div>
-
-        <div class="quest-card" data-category="cybersecurity coursework">
-          <h3>bar-chart-logs</h3>
-          <p><strong>Type:</strong> Data Visualization</p>
-          <p>Analyzes visited endpoints and displays the top 20 endpoints in a bar chart using notebook-based analysis.</p>
-          <a class="repo-link" href="https://github.com/Unknown903-dev/bar-chart-logs" target="_blank">View Quest</a>
-        </div>
-
-        <div class="quest-card" data-category="fullstack">
-          <h3>email-automation-scripts</h3>
-          <p><strong>Type:</strong> Python Automation</p>
-          <p>A collection of automation projects, including scripts that practice workflow automation concepts.</p>
-          <a class="repo-link" href="https://github.com/Unknown903-dev/email-automation-scripts" target="_blank">View Quest</a>
-        </div>
-
-        <div class="quest-card" data-category="coursework">
-          <h3>Algorithms</h3>
-          <p><strong>Type:</strong> C++ Practice</p>
-          <p>Algorithm practice repository focused on solving programming problems and strengthening C++ fundamentals.</p>
-          <a class="repo-link" href="https://github.com/Unknown903-dev/Algorithms" target="_blank">View Quest</a>
-        </div>
-
-        <div class="quest-card" data-category="coursework">
-          <h3>Mobile_computing</h3>
-          <p><strong>Type:</strong> Java / Mobile Computing</p>
-          <p>Mobile computing coursework or practice projects built with Java-based development concepts.</p>
-          <a class="repo-link" href="https://github.com/Unknown903-dev/Mobile_computing" target="_blank">View Quest</a>
-        </div>
-
-        <div class="quest-card" data-category="frontend coursework">
-          <h3>Web_Dev</h3>
-          <p><strong>Type:</strong> JavaScript Labs</p>
-          <p>Web development lab work focused on practicing JavaScript, frontend structure, and browser-based projects.</p>
-          <a class="repo-link" href="https://github.com/Unknown903-dev/Web_Dev" target="_blank">View Quest</a>
-        </div>
-
-        <div class="quest-card" data-category="cybersecurity">
-          <h3>CompTIA-Security+</h3>
-          <p><strong>Type:</strong> Cybersecurity Notes</p>
-          <p>Security+ focused repository for cybersecurity study material, notes, or certification preparation.</p>
-          <a class="repo-link" href="https://github.com/Unknown903-dev/CompTIA-Security-" target="_blank">View Quest</a>
-        </div>
-
-        <div class="quest-card" data-category="cybersecurity">
-          <h3>TryHackMe</h3>
-          <p><strong>Type:</strong> Cybersecurity Notes</p>
-          <p>TryHackMe notes and cybersecurity learning material from hands-on security practice.</p>
-          <a class="repo-link" href="https://github.com/Unknown903-dev/TryHackMe" target="_blank">View Quest</a>
-        </div>
-      </div>
+      <div class="project-filters" id="projectFilters"></div>
+      <div class="quests" id="projectList"></div>
     </section>
 
     <section id="stats" class="panel hidden">
       <h2>Player Stats</h2>
-      <div class="player-card">
-        <div>
-          <div class="stat"><label>Full-Stack Development</label><div class="bar"><div class="fill" style="width: 85%;"></div></div></div>
-          <div class="stat"><label>Cybersecurity</label><div class="bar"><div class="fill" style="width: 82%;"></div></div></div>
-          <div class="stat"><label>React / React Native</label><div class="bar"><div class="fill" style="width: 80%;"></div></div></div>
-          <div class="stat"><label>Backend API Integration</label><div class="bar"><div class="fill" style="width: 80%;"></div></div></div>
-        </div>
-        <div>
-          <div class="stat"><label>Cloud / DevOps</label><div class="bar"><div class="fill" style="width: 76%;"></div></div></div>
-          <div class="stat"><label>QA Testing</label><div class="bar"><div class="fill" style="width: 74%;"></div></div></div>
-          <div class="stat"><label>Threat Analysis Tools</label><div class="bar"><div class="fill" style="width: 72%;"></div></div></div>
-          <div class="stat"><label>Team Leadership</label><div class="bar"><div class="fill" style="width: 80%;"></div></div></div>
-        </div>
-      </div>
-
-      <div class="inventory">
-        <div class="inventory-card"><h3>Languages</h3><p>JavaScript, TypeScript, Python, C++, Java, HTML, CSS</p></div>
-        <div class="inventory-card"><h3>Frontend / Mobile</h3><p>React, React Native, Vite, navigation flows, responsive UI, mobile app screens</p></div>
-        <div class="inventory-card"><h3>Backend / Cloud</h3><p>Cloudflare Workers, D1, R2, Firebase, FastAPI, REST APIs, Google SSO</p></div>
-        <div class="inventory-card"><h3>Cybersecurity</h3><p>Wireshark, John the Ripper, TryHackMe, prompt injection research, incident response</p></div>
-        <div class="inventory-card"><h3>Tools</h3><p>Git, GitHub, Xcode, TestFlight, VS Code, Figma, Firebase Console</p></div>
-        <div class="inventory-card"><h3>Professional Skills</h3><p>Team leadership, QA testing, debugging, documentation, deployment preparation</p></div>
-      </div>
+      <div class="player-card" id="statsList"></div>
+      <div class="inventory" id="inventoryList"></div>
     </section>
 
     <section id="contact" class="panel hidden">
       <h2>Send Message</h2>
       <p>Want to team up for a quest? Reach out or view my work below.</p>
       <a class="contact-button" href="mailto:alexj123@gmail.com">Email</a>
-      <a class="contact-button" href="https://github.com/Unknown903-dev" target="_blank">GitHub</a>
-      <a class="contact-button" href="https://www.linkedin.com/in/alex-jimenez-525a86241/" target="_blank">LinkedIn</a>
-      <a class="contact-button" href="resume.pdf" target="_blank">Resume</a>
+      <a class="contact-button" href="https://github.com/Unknown903-dev" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a class="contact-button" href="https://www.linkedin.com/in/alex-jimenez-525a86241/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a class="contact-button" href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
     </section>
 
     <footer>
@@ -880,39 +782,279 @@
   </main>
 
   <script>
+    /* =========================
+       Data
+    ========================= */
+    const enemyPositions = [
+      [20, 0], [80, 0], [140, 0], [200, 0], [260, 0], [320, 0],
+      [50, 52], [110, 52], [170, 52], [230, 52], [290, 52],
+      [80, 104], [140, 104], [200, 104], [260, 104]
+    ];
+
+    const filters = [
+      { label: "All", value: "all" },
+      { label: "Full-Stack", value: "fullstack" },
+      { label: "Cybersecurity", value: "cybersecurity" },
+      { label: "Frontend", value: "frontend" },
+      { label: "Research", value: "research" },
+      { label: "Coursework", value: "coursework" }
+    ];
+
+    const projects = [
+      {
+        title: "Production Tracking Mobile App",
+        type: "Industry Capstone / Group Mobile App",
+        categories: ["fullstack"],
+        featured: true,
+        role: "Team Lead, Full-Stack Developer, DevOps, and QA Tester",
+        description: "Led full-stack development for a role-based production tracking app that improved task visibility, time tracking, project management, and reporting across employee, manager, and executive workflows.",
+        tech: "React Native, TypeScript, Cloudflare Workers, D1, R2, Firebase, Google SSO, Python/FastAPI, TestFlight",
+        moreId: "production-more",
+        more: "Built and connected frontend screens to backend APIs, implemented QR clock-in, employee task flows, templates, keychain session storage, push notifications, management navigation, LLM report integration, company-based data separation, UI refactors, QA testing, and deployment preparation."
+      },
+      {
+        title: "Research",
+        type: "AI Security Research",
+        categories: ["research", "cybersecurity"],
+        description: "Evaluated prompt injection robustness in an open-source instruction-tuned LLM by comparing attack success rates with and without a system policy prompt.",
+        links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Research" }]
+      },
+      {
+        title: "Mock Instagram Frontend",
+        type: "React / Vite Frontend",
+        categories: ["frontend", "fullstack"],
+        description: "A mock Instagram-style frontend built with React and Vite, combining the group frontend work into one project with pages, components, hooks, and routing.",
+        links: [{ label: "View Code", url: "https://github.com/eduardocastellon/mock-instagram-frontend" }]
+      },
+      {
+        title: "Course Registration",
+        type: "Deployed Web App",
+        categories: ["fullstack", "coursework"],
+        description: "A course registration project that lets users interact with a class registration system through a deployed web interface.",
+        links: [
+          { label: "View Code", url: "https://github.com/Unknown903-dev/alexj_eduardo_amir" },
+          { label: "Live Demo", url: "https://lab-8-course-registration-project-fall.onrender.com" }
+        ]
+      },
+      {
+        title: "CodePath Cybersecurity Capstone",
+        type: "Group Cybersecurity Capstone",
+        categories: ["cybersecurity", "coursework"],
+        description: "Group capstone work from Cyber 101 and Cyber 102 covering password security, brute-force testing, MFA, password manager recommendations, CICIDS 2017 traffic analysis, Wireshark investigation, malicious IP detection, incident response, and recovery planning.",
+        links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Codepath" }]
+      },
+      {
+        title: "UC Merced Hub / Honeypot Project",
+        type: "Deployed Web / Cybersecurity Project",
+        categories: ["cybersecurity", "frontend"],
+        description: "Contributed to a deployed web project connected to UC Merced Hub, with work focused on honeypot/security experimentation and frontend functionality.",
+        links: [
+          { label: "View Code", url: "https://github.com/Unknown903-dev/honeypot" },
+          { label: "Live Site", url: "https://www.ucmercedhub.com" }
+        ]
+      },
+      {
+        title: "bar-chart-logs",
+        type: "Data Visualization",
+        categories: ["cybersecurity", "coursework"],
+        description: "Analyzes visited endpoints and displays the top 20 endpoints in a bar chart using notebook-based analysis.",
+        links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/bar-chart-logs" }]
+      },
+      {
+        title: "email-automation-scripts",
+        type: "Python Automation",
+        categories: ["fullstack"],
+        description: "A collection of automation projects, including scripts that practice workflow automation concepts.",
+        links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/email-automation-scripts" }]
+      },
+      {
+        title: "Algorithms",
+        type: "C++ Practice",
+        categories: ["coursework"],
+        description: "Algorithm practice repository focused on solving programming problems and strengthening C++ fundamentals.",
+        links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Algorithms" }]
+      },
+      {
+        title: "Mobile_computing",
+        type: "Java / Mobile Computing",
+        categories: ["coursework"],
+        description: "Mobile computing coursework or practice projects built with Java-based development concepts.",
+        links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Mobile_computing" }]
+      },
+      {
+        title: "Web_Dev",
+        type: "JavaScript Labs",
+        categories: ["frontend", "coursework"],
+        description: "Web development lab work focused on practicing JavaScript, frontend structure, and browser-based projects.",
+        links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Web_Dev" }]
+      },
+      {
+        title: "CompTIA-Security+",
+        type: "Cybersecurity Notes",
+        categories: ["cybersecurity"],
+        description: "Security+ focused repository for cybersecurity study material, notes, or certification preparation.",
+        links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/CompTIA-Security-" }]
+      },
+      {
+        title: "TryHackMe",
+        type: "Cybersecurity Notes",
+        categories: ["cybersecurity"],
+        description: "TryHackMe notes and cybersecurity learning material from hands-on security practice.",
+        links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/TryHackMe" }]
+      }
+    ];
+
+    const stats = [
+      { label: "Full-Stack Development", value: 85 },
+      { label: "Cybersecurity", value: 82 },
+      { label: "React / React Native", value: 80 },
+      { label: "Backend API Integration", value: 80 },
+      { label: "Cloud / DevOps", value: 76 },
+      { label: "QA Testing", value: 74 },
+      { label: "Threat Analysis Tools", value: 72 },
+      { label: "Team Leadership", value: 80 }
+    ];
+
+    const inventory = [
+      { title: "Languages", text: "JavaScript, TypeScript, Python, C++, Java, HTML, CSS" },
+      { title: "Frontend / Mobile", text: "React, React Native, Vite, navigation flows, responsive UI, mobile app screens" },
+      { title: "Backend / Cloud", text: "Cloudflare Workers, D1, R2, Firebase, FastAPI, REST APIs, Google SSO" },
+      { title: "Cybersecurity", text: "Wireshark, John the Ripper, TryHackMe, prompt injection research, incident response" },
+      { title: "Tools", text: "Git, GitHub, Xcode, TestFlight, VS Code, Figma, Firebase Console" },
+      { title: "Professional Skills", text: "Team leadership, QA testing, debugging, documentation, deployment preparation" }
+    ];
+
+    /* =========================
+       Render Functions
+    ========================= */
+    function renderEnemyFleet() {
+      const enemyFleet = document.getElementById("enemyFleet");
+      enemyFleet.innerHTML = enemyPositions
+        .map(([left, top]) => `<div class="enemy" style="left: ${left}px; top: ${top}px;"></div>`)
+        .join("");
+    }
+
+    function renderFilters() {
+      const projectFilters = document.getElementById("projectFilters");
+      projectFilters.innerHTML = filters
+        .map((filter, index) => {
+          const activeClass = index === 0 ? " active" : "";
+          return `<button type="button" class="filter-button${activeClass}" onclick="filterProjects('${filter.value}', this)">${filter.label}</button>`;
+        })
+        .join("");
+    }
+
+    function renderProjects() {
+      const projectList = document.getElementById("projectList");
+      projectList.innerHTML = projects.map(createProjectCard).join("");
+    }
+
+    function createProjectCard(project) {
+      const featuredClass = project.featured ? " featured-project" : "";
+      const categories = project.categories.join(" ");
+      const roleMarkup = project.role ? `<p><strong>Role:</strong> ${project.role}</p>` : "";
+      const techMarkup = project.tech ? `<p><strong>Tech:</strong> ${project.tech}</p>` : "";
+      const moreMarkup = project.more ? createMoreMarkup(project) : "";
+      const linksMarkup = project.links ? createProjectLinks(project.links) : "";
+
+      return `
+        <article class="quest-card${featuredClass}" data-category="${categories}">
+          <h3>${project.title}</h3>
+          <p><strong>Type:</strong> ${project.type}</p>
+          ${roleMarkup}
+          <p>${project.description}</p>
+          ${techMarkup}
+          ${moreMarkup}
+          ${linksMarkup}
+        </article>
+      `;
+    }
+
+    function createMoreMarkup(project) {
+      return `
+        <button type="button" class="more-button" onclick="toggleMore('${project.moreId}')">More</button>
+        <div id="${project.moreId}" class="more-details hidden">
+          <p><strong>Key Contributions:</strong> ${project.more}</p>
+        </div>
+      `;
+    }
+
+    function createProjectLinks(links) {
+      return links
+        .map(link => `<a class="repo-link" href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`)
+        .join("");
+    }
+
+    function renderStats() {
+      const midpoint = Math.ceil(stats.length / 2);
+      const statColumns = [stats.slice(0, midpoint), stats.slice(midpoint)];
+      const statsList = document.getElementById("statsList");
+
+      statsList.innerHTML = statColumns
+        .map(column => `<div>${column.map(createStatBar).join("")}</div>`)
+        .join("");
+    }
+
+    function createStatBar(stat) {
+      return `
+        <div class="stat">
+          <label>${stat.label}</label>
+          <div class="bar">
+            <div class="fill" style="width: ${stat.value}%;"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderInventory() {
+      const inventoryList = document.getElementById("inventoryList");
+      inventoryList.innerHTML = inventory
+        .map(item => `
+          <article class="inventory-card">
+            <h3>${item.title}</h3>
+            <p>${item.text}</p>
+          </article>
+        `)
+        .join("");
+    }
+
+    /* =========================
+       Interaction Functions
+    ========================= */
     function showSection(sectionId) {
-      const sections = document.querySelectorAll("section");
-      sections.forEach(function(section) {
+      document.querySelectorAll("section").forEach(section => {
         section.classList.add("hidden");
       });
-      const selectedSection = document.getElementById(sectionId);
-      selectedSection.classList.remove("hidden");
+
+      document.getElementById(sectionId).classList.remove("hidden");
     }
 
     function toggleMore(detailsId) {
-      const details = document.getElementById(detailsId);
-      details.classList.toggle("hidden");
+      document.getElementById(detailsId).classList.toggle("hidden");
     }
 
     function filterProjects(category, button) {
-      const cards = document.querySelectorAll(".quest-card");
-      const buttons = document.querySelectorAll(".filter-button");
-
-      buttons.forEach(function(filterButton) {
+      document.querySelectorAll(".filter-button").forEach(filterButton => {
         filterButton.classList.remove("active");
       });
 
       button.classList.add("active");
 
-      cards.forEach(function(card) {
+      document.querySelectorAll(".quest-card").forEach(card => {
         const cardCategories = card.getAttribute("data-category") || "";
-        if (category === "all" || cardCategories.includes(category)) {
-          card.classList.remove("hidden");
-        } else {
-          card.classList.add("hidden");
-        }
+        const shouldShow = category === "all" || cardCategories.includes(category);
+        card.classList.toggle("hidden", !shouldShow);
       });
     }
+
+    /* =========================
+       App Start
+    ========================= */
+    renderEnemyFleet();
+    renderFilters();
+    renderProjects();
+    renderStats();
+    renderInventory();
   </script>
 </body>
 </html>
