@@ -279,3 +279,68 @@
       position: relative;
       overflow: hidden;
     }
+
+@keyframes starDrift {
+      from { transform: translateY(0); }
+      to { transform: translateY(40px); }
+    }
+
+    @keyframes fleetMove {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      25% { transform: translateX(-44%) translateY(6px); }
+      50% { transform: translateX(-56%) translateY(14px); }
+      75% { transform: translateX(-46%) translateY(8px); }
+    }
+
+    @keyframes enemyPulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.06); }
+    }
+
+    @keyframes diveLeft {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      12% { opacity: 1; }
+      40% { transform: translate(80px, 140px) rotate(40deg); opacity: 1; }
+      75% { transform: translate(180px, 360px) rotate(140deg); opacity: 1; }
+      100% { transform: translate(220px, 520px) rotate(220deg); opacity: 0; }
+    }
+
+    @keyframes diveRight {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      12% { opacity: 1; }
+      40% { transform: translate(-80px, 140px) rotate(-40deg); opacity: 1; }
+      75% { transform: translate(-180px, 360px) rotate(-140deg); opacity: 1; }
+      100% { transform: translate(-220px, 520px) rotate(-220deg); opacity: 0; }
+    }
+
+    @keyframes shipFloat {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-6px); }
+    }
+
+    @keyframes playerShot {
+      0% { transform: translateX(-50%) translateY(0); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateX(-50%) translateY(-460px); opacity: 0; }
+    }
+
+    @keyframes enemyShot {
+      0% { transform: translateY(0); opacity: 0; }
+      12% { opacity: 1; }
+      100% { transform: translateY(380px); opacity: 0; }
+    }
+
+    @keyframes explodePulse {
+      0%, 100% { transform: scale(0.7); opacity: 0.45; }
+      50% { transform: scale(1.25); opacity: 1; }
+    }
+
+    @media (max-width: 700px) {
+      .title { font-size: 32px; }
+      .player-card { grid-template-columns: 1fr; }
+      .top-bar { flex-direction: column; gap: 10px; }
+      .game-scene { opacity: 0.55; }
+      .enemy-fleet { transform: translateX(-50%) scale(0.72); }
+    }
+  </style>
+</head>
