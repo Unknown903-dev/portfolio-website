@@ -878,3 +878,41 @@
       <p>© 2026 Alex's Quest Log</p>
     </footer>
   </main>
+
+  <script>
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll("section");
+      sections.forEach(function(section) {
+        section.classList.add("hidden");
+      });
+      const selectedSection = document.getElementById(sectionId);
+      selectedSection.classList.remove("hidden");
+    }
+
+    function toggleMore(detailsId) {
+      const details = document.getElementById(detailsId);
+      details.classList.toggle("hidden");
+    }
+
+    function filterProjects(category, button) {
+      const cards = document.querySelectorAll(".quest-card");
+      const buttons = document.querySelectorAll(".filter-button");
+
+      buttons.forEach(function(filterButton) {
+        filterButton.classList.remove("active");
+      });
+
+      button.classList.add("active");
+
+      cards.forEach(function(card) {
+        const cardCategories = card.getAttribute("data-category") || "";
+        if (category === "all" || cardCategories.includes(category)) {
+          card.classList.remove("hidden");
+        } else {
+          card.classList.add("hidden");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
