@@ -184,7 +184,7 @@ function renderFilters() {
   projectFilters.innerHTML = filters
     .map((filter, index) => {
       const activeClass = index === 0 ? " active" : "";
-      return `<button type="button" class="filter-button${activeClass}" onclick="filterProjects('${filter.value}', this)">${filter.label}</button>`;
+      return `<button type="button" class="filter-button${activeClass}" data-filter="${filter.value}">${filter.label}</button>`;
     })
     .join("");
 }
@@ -217,7 +217,7 @@ function createProjectCard(project) {
 
 function createMoreMarkup(project) {
   return `
-    <button type="button" class="more-button" onclick="toggleMore('${project.moreId}')">More</button>
+    <button type="button" class="more-button" data-more-target="${project.moreId}">More</button>
     <div id="${project.moreId}" class="more-details hidden">
       <p><strong>Key Contributions:</strong> ${project.more}</p>
     </div>
@@ -277,11 +277,19 @@ function showSection(sectionId) {
     section.classList.add("hidden");
   });
 
-  document.getElementById(sectionId).classList.remove("hidden");
+  const selectedSection = document.getElementById(sectionId);
+
+  if (selectedSection) {
+    selectedSection.classList.remove("hidden");
+  }
 }
 
 function toggleMore(detailsId) {
-  document.getElementById(detailsId).classList.toggle("hidden");
+  const details = document.getElementById(detailsId);
+
+  if (details) {
+    details.classList.toggle("hidden");
+  }
 }
 
 function filterProjects(category, button) {
@@ -299,6 +307,33 @@ function filterProjects(category, button) {
   });
 }
 
+function setupSectionNavigation() {
+  document.querySelectorAll("[data-section]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const sectionId = button.getAttribute("data-section");
+      showSection(sectionId);
+    });
+  });
+}
+
+function setupProjectFilters() {
+  document.querySelectorAll(".filter-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const category = button.getAttribute("data-filter");
+      filterProjects(category, button);
+    });
+  });
+}
+
+function setupMoreButtons() {
+  document.querySelectorAll("[data-more-target]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const detailsId = button.getAttribute("data-more-target");
+      toggleMore(detailsId);
+    });
+  });
+}
+
 /* =========================
    App Start
 ========================= */
@@ -307,3 +342,6 @@ renderFilters();
 renderProjects();
 renderStats();
 renderInventory();
+setupSectionNavigation();
+setupProjectFilters();
+setupMoreButtons();
