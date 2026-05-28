@@ -333,7 +333,55 @@ function setupMoreButtons() {
     });
   });
 }
+//sparkles -----------------------------
+// Mouse sparkle effect
+const SPARKLE_AMOUNT = 3;
+const SPARKLE_DISTANCE = 65;
+let lastSparkleTime = 0;
 
+document.addEventListener("mousemove", (event) => {
+  const now = Date.now();
+
+  // Prevents creating too many sparkles and slowing the page down
+  if (now - lastSparkleTime < 25) {
+    return;
+  }
+
+  lastSparkleTime = now;
+
+  for (let i = 0; i < SPARKLE_AMOUNT; i++) {
+    createSparkle(event.clientX, event.clientY);
+  }
+});
+
+function createSparkle(x, y) {
+  const sparkle = document.createElement("div");
+  sparkle.className = "sparkle";
+
+  const hue = Math.floor(Math.random() * 360);
+  sparkle.style.color = `hsl(${hue}, 100%, 70%)`;
+  sparkle.style.background = `hsl(${hue}, 100%, 70%)`;
+
+  sparkle.style.left = `${x}px`;
+  sparkle.style.top = `${y}px`;
+
+  const angle = Math.random() * Math.PI * 2;
+  const distance = Math.random() * SPARKLE_DISTANCE;
+
+  const dx = Math.cos(angle) * distance;
+  const dy = Math.sin(angle) * distance;
+
+  sparkle.style.setProperty("--start-x", "-50%");
+  sparkle.style.setProperty("--start-y", "-50%");
+  sparkle.style.setProperty("--end-x", `calc(-50% + ${dx}px)`);
+  sparkle.style.setProperty("--end-y", `calc(-50% + ${dy}px)`);
+
+  document.body.appendChild(sparkle);
+
+  setTimeout(() => {
+    sparkle.remove();
+  }, 700);
+}
 /* =========================
    App Start
 ========================= */
