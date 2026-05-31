@@ -55,9 +55,9 @@ const projects = [
       "Built a deployed interactive website that helps users identify which algorithm to use, study algorithm concepts, view copyable C++ examples, and practice with quiz questions.",
     tech:
       "HTML, CSS, JavaScript, C++, Responsive UI",
-    links: [{ 
-      label: "View Quest", url: "https://github.com/Unknown903-dev/algorithm-finder",
-      label: "Live Site", url: "https://algorithms.z3rø.com" }],
+    links: [
+      {label: "View Quest", url: "https://github.com/Unknown903-dev/algorithm-finder"},
+      {label: "Live Site", url: "https://algorithms.z3rø.com" }],
   },
   {
     title: "Research",
