@@ -55,7 +55,9 @@ const projects = [
       "Built a deployed interactive website that helps users identify which algorithm to use, study algorithm concepts, view copyable C++ examples, and practice with quiz questions.",
     tech:
       "HTML, CSS, JavaScript, C++, Responsive UI",
-    links: [{ label: "Open Live Site", url: "https://algorithms.z3rø.com" }],
+    links: [{ 
+      label: "View Quest", url: "https://github.com/Unknown903-dev/algorithm-finder",
+      label: "Live Site", url: "https://algorithms.z3rø.com" }],
   },
   {
     title: "Research",
@@ -71,7 +73,7 @@ const projects = [
     categories: ["frontend", "fullstack"],
     description:
       "A mock Instagram-style frontend built with React and Vite, combining the group frontend work into one project with pages, components, hooks, and routing.",
-    links: [{ label: "View Code", url: "https://github.com/eduardocastellon/mock-instagram-frontend" }],
+    links: [{ label: "View Quest", url: "https://github.com/eduardocastellon/mock-instagram-frontend" }],
   },
   {
     title: "Course Registration",
@@ -80,7 +82,7 @@ const projects = [
     description:
       "A course registration project that lets users interact with a class registration system through a deployed web interface.",
     links: [
-      { label: "View Code", url: "https://github.com/Unknown903-dev/alexj_eduardo_amir" },
+      { label: "View Quest", url: "https://github.com/Unknown903-dev/alexj_eduardo_amir" },
       { label: "Live Demo", url: "https://lab-8-course-registration-project-fall.onrender.com" },
     ],
   },
@@ -99,7 +101,7 @@ const projects = [
     description:
       "Contributed to a deployed web project connected to UC Merced Hub, with work focused on honeypot/security experimentation and frontend functionality.",
     links: [
-      { label: "View Code", url: "https://github.com/Unknown903-dev/honeypot" },
+      { label: "View Quest", url: "https://github.com/Unknown903-dev/honeypot" },
       { label: "Live Site", url: "https://www.ucmercedhub.com" },
     ],
   },
