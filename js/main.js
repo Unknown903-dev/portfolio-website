@@ -22,6 +22,7 @@ const enemyPositions = [
 const filters = [
   { label: "All", value: "all" },
   { label: "Full-Stack", value: "fullstack" },
+  { label: "Algorithms", value: "algorithms" },
   { label: "Cybersecurity", value: "cybersecurity" },
   { label: "Frontend", value: "frontend" },
   { label: "Research", value: "research" },
@@ -42,6 +43,19 @@ const projects = [
     moreId: "production-more",
     more:
       "Built and connected frontend screens to backend APIs, implemented QR clock-in, employee task flows, templates, keychain session storage, push notifications, management navigation, LLM report integration, company-based data separation, UI refactors, QA testing, and deployment preparation.",
+  },
+
+  {
+    title: "Algorithm Finder Website",
+    type: "Deployed Web App / Algorithm Learning Tool",
+    categories: ["frontend", "fullstack", "coursework", "algorithms"],
+    featured: true,
+    role: "Designer and Developer",
+    description:
+      "Built a deployed interactive website that helps users identify which algorithm to use, study algorithm concepts, view copyable C++ examples, and practice with quiz questions.",
+    tech:
+      "HTML, CSS, JavaScript, C++, Responsive UI",
+    links: [{ label: "Open Live Site", url: "https://algorithms.z3rø.com" }],
   },
   {
     title: "Research",
