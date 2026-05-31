@@ -341,17 +341,75 @@ button {
 }
 
 .title {
-  margin-bottom: 10px;
-  color: var(--text-main);
-  font-size: clamp(34px, 6vw, 64px);
-  line-height: 1;
-  letter-spacing: 3px;
+  position: relative;
+  isolation: isolate;
+  margin: 0 auto 44px;
+  width: fit-content;
+  max-width: 100%;
+  color: transparent;
+  font-size: clamp(38px, 7vw, 82px);
+  line-height: 0.94;
+  letter-spacing: 5px;
   text-align: center;
-  text-shadow: 0 0 18px rgba(54, 249, 246, 0.75), 0 0 34px rgba(255, 42, 109, 0.45);
+  text-transform: uppercase;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #36f9f6 24%, #f8f32b 58%, #ff9f1c 82%, #ff2a6d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 1.4px rgba(255, 255, 255, 0.9);
+  transform: perspective(780px) rotateX(13deg) rotateY(-7deg) skewX(-2deg);
+  transform-style: preserve-3d;
+  filter:
+    drop-shadow(0 0 10px rgba(54, 249, 246, 0.85))
+    drop-shadow(0 0 24px rgba(255, 42, 109, 0.45));
+  text-shadow:
+    1px 1px 0 #ffd24a,
+    2px 2px 0 #ff9f1c,
+    3px 3px 0 #ff6b1a,
+    4px 4px 0 #ff2a6d,
+    5px 5px 0 #c91873,
+    6px 6px 0 #921667,
+    7px 7px 0 #64125d,
+    8px 8px 0 #38104f,
+    9px 9px 0 #160a35,
+    10px 10px 0 #080716,
+    13px 13px 0 rgba(0, 0, 0, 0.86),
+    18px 20px 20px rgba(0, 0, 0, 0.9),
+    0 0 18px rgba(54, 249, 246, 0.95),
+    0 0 38px rgba(255, 42, 109, 0.65),
+    0 0 62px rgba(248, 243, 43, 0.28);
+}
+
+.title::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  color: #070816;
+  -webkit-text-stroke: 12px rgba(11, 16, 38, 0.96);
+  text-shadow:
+    2px 2px 0 #36f9f6,
+    4px 4px 0 #1fb6d8,
+    6px 6px 0 #166aa1,
+    8px 8px 0 #ff2a6d,
+    10px 10px 0 #9e174f,
+    12px 12px 0 #4c0f37,
+    16px 16px 18px rgba(0, 0, 0, 0.95),
+    0 0 26px rgba(54, 249, 246, 0.5);
+  transform: translate3d(14px, 17px, -22px) skewX(4deg);
+  opacity: 0.98;
+}
+
+.title::after {
+  content: none;
+  display: none;
 }
 
 .subtitle {
-  margin-bottom: 34px;
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+  margin-bottom: 42px;
   color: var(--cyan);
   font-size: 18px;
   letter-spacing: 1px;
@@ -761,7 +819,30 @@ footer {
   }
 
   .title {
-    font-size: 32px;
+    margin-bottom: 34px;
+    font-size: 34px;
+    letter-spacing: 2px;
+    -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.82);
+    transform: perspective(620px) rotateX(9deg) rotateY(-4deg) skewX(-1deg);
+    text-shadow:
+      1px 1px 0 #ffd24a,
+      2px 2px 0 #ff9f1c,
+      3px 3px 0 #ff2a6d,
+      4px 4px 0 #921667,
+      5px 5px 0 #160a35,
+      8px 9px 12px rgba(0, 0, 0, 0.9),
+      0 0 15px rgba(54, 249, 246, 0.85),
+      0 0 28px rgba(255, 42, 109, 0.55);
+  }
+
+  .title::before {
+    transform: translate3d(7px, 9px, -14px) skewX(3deg);
+    -webkit-text-stroke-width: 7px;
+  }
+
+  .title::after {
+    content: none;
+    display: none;
   }
 
   .top-bar {
@@ -817,6 +898,7 @@ footer {
 }
 /* =========================
    Christmas Lights Border
+   Safe: CSS-only decoration. No user data, no external assets.
 ========================= */
 .christmas-lights {
   position: fixed;
