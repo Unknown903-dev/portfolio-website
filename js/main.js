@@ -184,69 +184,169 @@ const inventory = [
 ];
 
 /* =========================
+   Render Helpers
+========================= */
+function clearElement(element) {
+  if (!element) {
+    return;
+  }
+
+  element.replaceChildren();
+}
+
+function createTextElement(tagName, text, className) {
+  const element = document.createElement(tagName);
+
+  if (className) {
+    element.className = className;
+  }
+
+  element.textContent = text;
+  return element;
+}
+
+function createStrongLabelParagraph(label, value) {
+  const paragraph = document.createElement("p");
+  const strong = document.createElement("strong");
+
+  strong.textContent = `${label}:`;
+  paragraph.append(strong, ` ${value}`);
+
+  return paragraph;
+}
+
+function isSafeProjectUrl(url) {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.protocol === "https:" || parsedUrl.protocol === "mailto:";
+  } catch (error) {
+    return false;
+  }
+}
+
+/* =========================
    Render Functions
 ========================= */
 function renderEnemyFleet() {
   const enemyFleet = document.getElementById("enemyFleet");
 
-  enemyFleet.innerHTML = enemyPositions
-    .map(([left, top]) => `<div class="enemy" style="left: ${left}px; top: ${top}px;"></div>`)
-    .join("");
+  if (!enemyFleet) {
+    return;
+  }
+
+  clearElement(enemyFleet);
+
+  enemyPositions.forEach(([left, top]) => {
+    const enemy = document.createElement("div");
+    enemy.className = "enemy";
+    enemy.style.left = `${left}px`;
+    enemy.style.top = `${top}px`;
+    enemyFleet.appendChild(enemy);
+  });
 }
 
 function renderFilters() {
   const projectFilters = document.getElementById("projectFilters");
 
-  projectFilters.innerHTML = filters
-    .map((filter, index) => {
-      const activeClass = index === 0 ? " active" : "";
-      return `<button type="button" class="filter-button${activeClass}" data-filter="${filter.value}">${filter.label}</button>`;
-    })
-    .join("");
+  if (!projectFilters) {
+    return;
+  }
+
+  clearElement(projectFilters);
+
+  filters.forEach((filter, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = index === 0 ? "filter-button active" : "filter-button";
+    button.dataset.filter = filter.value;
+    button.textContent = filter.label;
+    projectFilters.appendChild(button);
+  });
 }
 
 function renderProjects() {
   const projectList = document.getElementById("projectList");
-  projectList.innerHTML = projects.map(createProjectCard).join("");
+
+  if (!projectList) {
+    return;
+  }
+
+  clearElement(projectList);
+
+  projects.forEach((project) => {
+    projectList.appendChild(createProjectCard(project));
+  });
 }
 
 function createProjectCard(project) {
-  const featuredClass = project.featured ? " featured-project" : "";
-  const categories = project.categories.join(" ");
-  const roleMarkup = project.role ? `<p><strong>Role:</strong> ${project.role}</p>` : "";
-  const techMarkup = project.tech ? `<p><strong>Tech:</strong> ${project.tech}</p>` : "";
-  const moreMarkup = project.more ? createMoreMarkup(project) : "";
-  const linksMarkup = project.links ? createProjectLinks(project.links) : "";
+  const article = document.createElement("article");
+  article.className = project.featured ? "quest-card featured-project" : "quest-card";
+  article.dataset.category = project.categories.join(" ");
 
-  return `
-    <article class="quest-card${featuredClass}" data-category="${categories}">
-      <h3>${project.title}</h3>
-      <p><strong>Type:</strong> ${project.type}</p>
-      ${roleMarkup}
-      <p>${project.description}</p>
-      ${techMarkup}
-      ${moreMarkup}
-      ${linksMarkup}
-    </article>
-  `;
+  article.appendChild(createTextElement("h3", project.title));
+  article.appendChild(createStrongLabelParagraph("Type", project.type));
+
+  if (project.role) {
+    article.appendChild(createStrongLabelParagraph("Role", project.role));
+  }
+
+  article.appendChild(createTextElement("p", project.description));
+
+  if (project.tech) {
+    article.appendChild(createStrongLabelParagraph("Tech", project.tech));
+  }
+
+  if (project.more && project.moreId) {
+    article.appendChild(createMoreButton(project));
+    article.appendChild(createMoreDetails(project));
+  }
+
+  if (Array.isArray(project.links)) {
+    project.links.forEach((link) => {
+      const linkElement = createProjectLink(link);
+
+      if (linkElement) {
+        article.appendChild(linkElement);
+      }
+    });
+  }
+
+  return article;
 }
 
-function createMoreMarkup(project) {
-  return `
-    <button type="button" class="more-button" data-more-target="${project.moreId}">More</button>
-    <div id="${project.moreId}" class="more-details hidden">
-      <p><strong>Key Contributions:</strong> ${project.more}</p>
-    </div>
-  `;
+function createMoreButton(project) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "more-button";
+  button.dataset.moreTarget = project.moreId;
+  button.textContent = "More";
+  return button;
 }
 
-function createProjectLinks(links) {
-  return links
-    .map(
-      (link) =>
-        `<a class="repo-link" href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`
-    )
-    .join("");
+function createMoreDetails(project) {
+  const container = document.createElement("div");
+  container.id = project.moreId;
+  container.className = "more-details hidden";
+
+  const paragraph = createStrongLabelParagraph("Key Contributions", project.more);
+  container.appendChild(paragraph);
+
+  return container;
+}
+
+function createProjectLink(link) {
+  if (!link || !isSafeProjectUrl(link.url)) {
+    return null;
+  }
+
+  const anchor = document.createElement("a");
+  anchor.className = "repo-link";
+  anchor.href = link.url;
+  anchor.target = "_blank";
+  anchor.rel = "noopener noreferrer";
+  anchor.textContent = link.label;
+
+  return anchor;
 }
 
 function renderStats() {
@@ -254,35 +354,65 @@ function renderStats() {
   const statColumns = [stats.slice(0, midpoint), stats.slice(midpoint)];
   const statsList = document.getElementById("statsList");
 
-  statsList.innerHTML = statColumns
-    .map((column) => `<div>${column.map(createStatBar).join("")}</div>`)
-    .join("");
+  if (!statsList) {
+    return;
+  }
+
+  clearElement(statsList);
+
+  statColumns.forEach((column) => {
+    const columnElement = document.createElement("div");
+
+    column.forEach((stat) => {
+      columnElement.appendChild(createStatBar(stat));
+    });
+
+    statsList.appendChild(columnElement);
+  });
 }
 
 function createStatBar(stat) {
-  return `
-    <div class="stat">
-      <label>${stat.label}</label>
-      <div class="bar">
-        <div class="fill" style="width: ${stat.value}%;"></div>
-      </div>
-    </div>
-  `;
+  const statWrapper = document.createElement("div");
+  statWrapper.className = "stat";
+
+  const label = document.createElement("label");
+  label.textContent = stat.label;
+
+  const bar = document.createElement("div");
+  bar.className = "bar";
+
+  const fill = document.createElement("div");
+  fill.className = "fill";
+
+  const safeValue = Math.min(Math.max(Number(stat.value) || 0, 0), 100);
+  fill.style.width = `${safeValue}%`;
+
+  bar.appendChild(fill);
+  statWrapper.append(label, bar);
+
+  return statWrapper;
 }
 
 function renderInventory() {
   const inventoryList = document.getElementById("inventoryList");
 
-  inventoryList.innerHTML = inventory
-    .map(
-      (item) => `
-        <article class="inventory-card">
-          <h3>${item.title}</h3>
-          <p>${item.text}</p>
-        </article>
-      `
-    )
-    .join("");
+  if (!inventoryList) {
+    return;
+  }
+
+  clearElement(inventoryList);
+
+  inventory.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "inventory-card";
+
+    card.append(
+      createTextElement("h3", item.title),
+      createTextElement("p", item.text)
+    );
+
+    inventoryList.appendChild(card);
+  });
 }
 
 /* =========================
@@ -317,7 +447,7 @@ function filterProjects(category, button) {
 
   document.querySelectorAll(".quest-card").forEach((card) => {
     const cardCategories = card.getAttribute("data-category") || "";
-    const shouldShow = category === "all" || cardCategories.includes(category);
+    const shouldShow = category === "all" || cardCategories.split(" ").includes(category);
 
     card.classList.toggle("hidden", !shouldShow);
   });
@@ -336,7 +466,10 @@ function setupProjectFilters() {
   document.querySelectorAll(".filter-button").forEach((button) => {
     button.addEventListener("click", () => {
       const category = button.getAttribute("data-filter");
-      filterProjects(category, button);
+
+      if (category) {
+        filterProjects(category, button);
+      }
     });
   });
 }
@@ -345,45 +478,54 @@ function setupMoreButtons() {
   document.querySelectorAll("[data-more-target]").forEach((button) => {
     button.addEventListener("click", () => {
       const detailsId = button.getAttribute("data-more-target");
-      toggleMore(detailsId);
+
+      if (detailsId) {
+        toggleMore(detailsId);
+      }
     });
   });
 }
-//sparkles -----------------------------
-// Mouse sparkle effect
+
+/* =========================
+   Mouse Sparkle Effect
+   Safe practice:
+   - Uses createElement.
+   - Does not read or render user input.
+========================= */
 const SPARKLE_AMOUNT = 3;
 const SPARKLE_DISTANCE = 65;
 let lastSparkleTime = 0;
 
-document.addEventListener("mousemove", (event) => {
-  const now = Date.now();
+function setupSparkles() {
+  document.addEventListener("mousemove", (event) => {
+    const now = Date.now();
 
-  // Prevents creating too many sparkles and slowing the page down
-  if (now - lastSparkleTime < 25) {
-    return;
-  }
+    if (now - lastSparkleTime < 25) {
+      return;
+    }
 
-  lastSparkleTime = now;
+    lastSparkleTime = now;
 
-  for (let i = 0; i < SPARKLE_AMOUNT; i++) {
-    createSparkle(event.clientX, event.clientY);
-  }
-});
+    for (let i = 0; i < SPARKLE_AMOUNT; i++) {
+      createSparkle(event.clientX, event.clientY);
+    }
+  });
+}
 
 function createSparkle(x, y) {
   const sparkle = document.createElement("div");
   sparkle.className = "sparkle";
 
   const hue = Math.floor(Math.random() * 360);
-  sparkle.style.color = `hsl(${hue}, 100%, 70%)`;
-  sparkle.style.background = `hsl(${hue}, 100%, 70%)`;
+  const color = `hsl(${hue}, 100%, 70%)`;
+  sparkle.style.color = color;
+  sparkle.style.background = color;
 
   sparkle.style.left = `${x}px`;
   sparkle.style.top = `${y}px`;
 
   const angle = Math.random() * Math.PI * 2;
   const distance = Math.random() * SPARKLE_DISTANCE;
-
   const dx = Math.cos(angle) * distance;
   const dy = Math.sin(angle) * distance;
 
@@ -394,18 +536,51 @@ function createSparkle(x, y) {
 
   document.body.appendChild(sparkle);
 
-  setTimeout(() => {
+  window.setTimeout(() => {
     sparkle.remove();
   }, 700);
 }
+
+/* =========================
+   Christmas Lights
+========================= */
+function setupChristmasLights() {
+  const wires = document.querySelectorAll(".christmas-wire");
+  const colors = ["red", "green", "blue", "yellow", "pink", "orange"];
+
+  wires.forEach((wire, wireIndex) => {
+    const count = Number.parseInt(wire.dataset.lightCount || "0", 10);
+
+    if (!Number.isFinite(count) || count <= 0) {
+      return;
+    }
+
+    for (let i = 0; i < count; i++) {
+      const bulb = document.createElement("span");
+      const color = colors[(i + wireIndex) % colors.length];
+
+      bulb.classList.add("christmas-bulb", color);
+      bulb.style.animationDelay = `${(i % colors.length) * 0.18}s`;
+
+      wire.appendChild(bulb);
+    }
+  });
+}
+
 /* =========================
    App Start
 ========================= */
-renderEnemyFleet();
-renderFilters();
-renderProjects();
-renderStats();
-renderInventory();
-setupSectionNavigation();
-setupProjectFilters();
-setupMoreButtons();
+function initApp() {
+  renderEnemyFleet();
+  renderFilters();
+  renderProjects();
+  renderStats();
+  renderInventory();
+  setupSectionNavigation();
+  setupProjectFilters();
+  setupMoreButtons();
+  setupSparkles();
+  setupChristmasLights();
+}
+
+document.addEventListener("DOMContentLoaded", initApp);
