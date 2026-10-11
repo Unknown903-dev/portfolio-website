@@ -1,1 +1,32 @@
-hello
+# Alex Jimenez
+
+> Computer Science and Engineering Alumni at the University of California, Merced, building full-stack web and mobile applications with a focus on cloud systems, cybersecurity, and reliable user experiences.
+
+Alex is a hands-on software developer who has led team projects from frontend and backend implementation through testing and deployment preparation. He brings together application development, cloud APIs, authentication, data systems, and practical security work, and collaborates effectively across team workflows.
+
+## Highlights
+
+- Led full-stack development of an industry-partner production tracking mobile app for employee, manager, and executive workflows, including task tracking, QR clock-in, approvals, analytics, and report generation.
+- Integrated React Native and TypeScript with Cloudflare Workers, D1, Firebase, iOS Keychain sessions, and backend APIs; contributed to testing, debugging, and TestFlight deployment preparation.
+- Collaborated on a UC Merced/CSED research-driven time and task tracking project, exploring real-time collaboration, version history, and synchronization approaches including ShareDB, Automerge, and MongoDB change streams.
+- Built a full-stack social platform with REST APIs, CRUD workflows, password hashing, and protected routes.
+- Developed role-based course registration workflows and a deployed algorithm-learning website.
+- Built and analyzed a web honeypot for threat detection, and completed hands-on cybersecurity work involving network analysis, SIEM monitoring, vulnerability assessment, and incident response.
+
+## Skills
+
+- Languages: Python, C, C++, JavaScript, TypeScript, HTML, and CSS.
+- Frontend and mobile: React, React Native, Angular, responsive interfaces, and mobile application development.
+- Backend and cloud: Node.js, Flask, FastAPI, Cloudflare Workers, D1, R2, Firebase, MongoDB, and REST APIs.
+- Security and testing: authentication, role-based access control, password hashing, session handling, frontend/backend testing, manual QA, debugging, Wireshark, Splunk, Burp Suite, VirusTotal, and John the Ripper.
+- Collaboration and delivery: Git, GitHub, Agile-style teamwork, technical research, and deployment preparation.
+
+## Contact and links
+
+- Email: [alexj-dev@outlook.com](mailto:alexj-dev@outlook.com)
+- UC Merced email: [ajimenez126@ucmerced.edu](mailto:ajimenez126@ucmerced.edu)
+- GitHub: [Unknown903-dev](https://github.com/Unknown903-dev)
+- LinkedIn: [Alex Jimenez](https://www.linkedin.com/in/alex-jimenez-525a86241/)
+- Portfolio: [Alex's portfolio](/)
+- Resume: [Download resume](/resume.pdf)
+- UC Merced/CSED research project: [Time and Task Tracker](https://csed-ucm.github.io/projects/t4/)
