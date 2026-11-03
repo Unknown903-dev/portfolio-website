@@ -3,12 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#05060f" />
   <title>Player One Portfolio</title>
   <meta name="description" content="Alex Jimenez portfolio featuring full-stack development, cybersecurity, mobile applications, cloud systems, and deployed web projects." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%2305060f'/%3E%3Cpath fill='cyan' d='M2 9h3v4H2zM11 9h3v4h-3z'/%3E%3Cpath fill='gold' d='M7 2h2v2h1v3h1v6H5V7h1V4h1z'/%3E%3Crect x='7' y='7' width='2' height='2' fill='white'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
 <body>
+  <div class="start-screen" id="startScreen" role="dialog" aria-label="Start screen">
+    <button type="button" class="start-button" id="startButton">
+      <span class="pixel-line" data-pixel="PRESS START" data-face="gold">PRESS START</span>
+      <span class="start-greeting">Merry Christmas from Alex</span>
+      <span class="start-hint">Click, tap or press any key</span>
+    </button>
+  </div>
   <div class="christmas-lights" aria-hidden="true">
     <div class="christmas-wire christmas-wire-top" data-light-count="26"></div>
     <div class="christmas-wire christmas-wire-right" data-light-count="13"></div>
@@ -48,58 +57,89 @@
 
   <main class="screen">
     <header>
-      <div class="top-bar">
+      <div class="hud">
         <p>PLAYER: ALEX</p>
         <p>LEVEL: 4</p>
-        <p>XP: 850 / 1000</p>
+        <p id="xmas">XMAS: DEC 25</p>
+        <p>SCORE: <span id="score">03190</span></p>
+        <p class="xp">
+          <span>XP: 850 / 1000</span>
+          <span class="xp-bar" role="img" aria-label="850 of 1000 XP"><i style="--v:85%"></i></span>
+        </p>
       </div>
 
-      <h1 class="title" data-text="PLAYER ONE: ALEX">PLAYER ONE: ALEX</h1>
-      <p class="subtitle">Full-Stack Developer | Cybersecurity | Mobile & Cloud Systems</p>
+      <h1 class="title">
+        <span class="pixel-line" data-pixel="PLAYER ONE:" data-face="xmas">PLAYER ONE:</span>
+        <span class="pixel-line big" data-pixel="ALEX" data-face="gold">ALEX</span>
+      </h1>
+      <p class="subtitle">Full-Stack Developer | Cybersecurity | Mobile &amp; Cloud Systems</p>
     </header>
 
-    <nav class="menu" aria-label="Portfolio sections">
-      <button type="button" data-section="bio">Player Bio</button>
-      <button type="button" data-section="quests">Completed Quests</button>
-      <button type="button" data-section="stats">Player Stats</button>
-      <button type="button" data-section="contact">Send Message</button>
-    </nav>
+    <div class="layout">
+      <div class="side">
+        <nav class="menu" role="tablist" aria-orientation="vertical" aria-label="Portfolio sections">
+          <button type="button" role="tab" id="tab-bio" data-section="bio" aria-controls="bio" aria-selected="true">Player Bio</button>
+          <button type="button" role="tab" id="tab-quests" data-section="quests" aria-controls="quests" aria-selected="false" tabindex="-1">Completed Quests</button>
+          <button type="button" role="tab" id="tab-stats" data-section="stats" aria-controls="stats" aria-selected="false" tabindex="-1">Player Stats</button>
+          <button type="button" role="tab" id="tab-contact" data-section="contact" aria-controls="contact" aria-selected="false" tabindex="-1">Send Message</button>
+        </nav>
+        <p class="menu-hint">Use the arrow keys to move</p>
+      </div>
 
-    <section id="bio" class="panel">
-      <h2>Player Bio</h2>
-      <p>
-        I am a Computer Science and Engineering student at UC Merced focused on full-stack development,
-        cybersecurity, and cloud-backed applications. I enjoy building practical software that connects
-        secure frontend experiences with reliable backend systems.
-      </p>
-      <p>
-        My experience includes leading a team-based mobile app capstone, building deployed web projects,
-        researching AI prompt injection security, analyzing network traffic with cybersecurity tools, and
-        developing applications with JavaScript, Python, React, React Native, Cloudflare, Firebase, and
-        database-backed APIs.
-      </p>
-    </section>
+      <div class="stage">
+        <section id="bio" class="panel" role="tabpanel" aria-labelledby="tab-bio">
+          <h2>Player Bio</h2>
+          <div class="bio-layout">
+            <div class="char">
+              <div class="portrait" id="portrait" aria-hidden="true"></div>
+              <dl class="sheet">
+                <div><dt>Class</dt><dd>Full-Stack Developer</dd></div>
+                <div><dt>Guild</dt><dd>UC Merced</dd></div>
+              </dl>
+            </div>
+            <div class="dialog">
+          <p>
+            I am a Computer Science and Engineering student at UC Merced focused on full-stack development,
+            cybersecurity, and cloud-backed applications. I enjoy building practical software that connects
+            secure frontend experiences with reliable backend systems.
+          </p>
+          <p>
+            My experience includes leading a team-based mobile app capstone, building deployed web projects,
+            researching AI prompt injection security, analyzing network traffic with cybersecurity tools, and
+            developing applications with JavaScript, Python, React, React Native, Cloudflare, Firebase, and
+            database-backed APIs.
+          </p>
+            </div>
+          </div>
+        </section>
 
-    <section id="quests" class="panel hidden">
-      <h2>Completed Quests</h2>
-      <div class="project-filters" id="projectFilters"></div>
-      <div class="quests" id="projectList"></div>
-    </section>
+        <section id="quests" class="panel hidden" role="tabpanel" aria-labelledby="tab-quests">
+          <h2>Completed Quests</h2>
+          <div class="project-filters" id="projectFilters"></div>
+          <p class="result-count" id="resultCount" role="status"></p>
+          <div class="quests" id="projectList"></div>
+        </section>
 
-    <section id="stats" class="panel hidden">
-      <h2>Player Stats</h2>
-      <div class="player-card" id="statsList"></div>
-      <div class="inventory" id="inventoryList"></div>
-    </section>
+        <section id="stats" class="panel hidden" role="tabpanel" aria-labelledby="tab-stats">
+          <h2>Player Stats</h2>
+          <div class="player-card" id="statsList"></div>
+          <h3 class="inv-title">Inventory</h3>
+          <div class="inventory" id="inventoryList"></div>
+        </section>
 
-    <section id="contact" class="panel hidden">
-      <h2>Send Message</h2>
-      <p>Want to team up for a quest? Reach out or view my work below.</p>
-      <a class="contact-button" href="mailto:alexj-dev@outlook.com">Email</a>
-      <a class="contact-button" href="https://github.com/Unknown903-dev" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a class="contact-button" href="https://www.linkedin.com/in/alex-jimenez-525a86241/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a class="contact-button" href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
-    </section>
+        <section id="contact" class="panel hidden" role="tabpanel" aria-labelledby="tab-contact">
+          <h2>Send Message</h2>
+          <p>Want to team up for a quest? Reach out, or check out my work on GitHub.</p>
+          <div class="contact-actions">
+            <a class="contact-button primary" href="mailto:alexj-dev@outlook.com">Email</a>
+            <a class="contact-button" href="https://github.com/Unknown903-dev" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a class="contact-button" href="https://www.linkedin.com/in/alex-jimenez-525a86241/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a class="contact-button" href="resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+          </div>
+          <p class="email-line">alexj-dev@outlook.com</p>
+        </section>
+      </div>
+    </div>
 
     <footer>
       <p>© 2026 Alex's Quest Log</p>

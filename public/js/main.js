@@ -258,6 +258,7 @@ function renderFilters() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = index === 0 ? "filter-button active" : "filter-button";
+    button.setAttribute("aria-pressed", String(index === 0));
     button.dataset.filter = filter.value;
     button.textContent = filter.label;
     projectFilters.appendChild(button);
@@ -282,6 +283,7 @@ function createProjectCard(project) {
   const article = document.createElement("article");
   article.className = project.featured ? "quest-card featured-project" : "quest-card";
   article.dataset.category = project.categories.join(" ");
+  article.dataset.kind = project.categories[0];
 
   article.appendChild(createTextElement("h3", project.title));
   article.appendChild(createStrongLabelParagraph("Type", project.type));
@@ -296,9 +298,12 @@ function createProjectCard(project) {
     article.appendChild(createStrongLabelParagraph("Tech", project.tech));
   }
 
+  const actions = document.createElement("div");
+  actions.className = "card-actions";
+
   if (project.more && project.moreId) {
-    article.appendChild(createMoreButton(project));
     article.appendChild(createMoreDetails(project));
+    actions.appendChild(createMoreButton(project));
   }
 
   if (Array.isArray(project.links)) {
@@ -306,9 +311,13 @@ function createProjectCard(project) {
       const linkElement = createProjectLink(link);
 
       if (linkElement) {
-        article.appendChild(linkElement);
+        actions.appendChild(linkElement);
       }
     });
+  }
+
+  if (actions.children.length) {
+    article.appendChild(actions);
   }
 
   return article;
@@ -320,6 +329,8 @@ function createMoreButton(project) {
   button.className = "more-button";
   button.dataset.moreTarget = project.moreId;
   button.textContent = "More";
+  button.setAttribute("aria-expanded", "false");
+  button.setAttribute("aria-controls", project.moreId);
   return button;
 }
 
@@ -340,11 +351,12 @@ function createProjectLink(link) {
   }
 
   const anchor = document.createElement("a");
-  anchor.className = "repo-link";
+  anchor.className = /^live/i.test(link.label) ? "repo-link live" : "repo-link";
   anchor.href = link.url;
   anchor.target = "_blank";
   anchor.rel = "noopener noreferrer";
   anchor.textContent = link.label;
+  anchor.append(createTextElement("span", " (opens in a new tab)", "sr-only"));
 
   return anchor;
 }
@@ -375,8 +387,8 @@ function createStatBar(stat) {
   const statWrapper = document.createElement("div");
   statWrapper.className = "stat";
 
-  const label = document.createElement("label");
-  label.textContent = stat.label;
+  const label = document.createElement("div");
+  label.className = "stat-label";
 
   const bar = document.createElement("div");
   bar.className = "bar";
@@ -385,8 +397,11 @@ function createStatBar(stat) {
   fill.className = "fill";
 
   const safeValue = Math.min(Math.max(Number(stat.value) || 0, 0), 100);
-  fill.style.width = `${safeValue}%`;
+  fill.style.setProperty("--w", `${safeValue}%`);
 
+  label.append(createTextElement("span", stat.label), createTextElement("b", String(safeValue)));
+  bar.setAttribute("role", "img");
+  bar.setAttribute("aria-label", `${stat.label}: ${safeValue} out of 100`);
   bar.appendChild(fill);
   statWrapper.append(label, bar);
 
@@ -418,32 +433,67 @@ function renderInventory() {
 /* =========================
    Interaction Functions
 ========================= */
-function showSection(sectionId) {
-  document.querySelectorAll("section").forEach((section) => {
-    section.classList.add("hidden");
-  });
-
+function showSection(sectionId, { focus = false, updateHash = true } = {}) {
   const selectedSection = document.getElementById(sectionId);
 
-  if (selectedSection) {
-    selectedSection.classList.remove("hidden");
+  if (!selectedSection) {
+    return;
+  }
+
+  document.querySelectorAll(".panel").forEach((section) => section.classList.add("hidden"));
+  selectedSection.classList.remove("hidden");
+
+  document.querySelectorAll("[data-section]").forEach((tab) => {
+    const active = tab.dataset.section === sectionId;
+    tab.setAttribute("aria-selected", String(active));
+    tab.tabIndex = active ? 0 : -1;
+
+    if (active && focus) {
+      tab.focus();
+    }
+  });
+
+  if (updateHash) {
+    history.replaceState(null, "", `#${sectionId}`);
+    addScore(50);
   }
 }
 
 function toggleMore(detailsId) {
   const details = document.getElementById(detailsId);
 
-  if (details) {
-    details.classList.toggle("hidden");
+  if (!details) {
+    return;
+  }
+
+  const isHidden = details.classList.toggle("hidden");
+  addScore(10);
+  const button = document.querySelector(`[data-more-target="${detailsId}"]`);
+
+  if (button) {
+    button.textContent = isHidden ? "More" : "Less";
+    button.setAttribute("aria-expanded", String(!isHidden));
+  }
+}
+
+function updateResultCount() {
+  const total = document.querySelectorAll(".quest-card").length;
+  const shown = document.querySelectorAll(".quest-card:not(.hidden)").length;
+  const counter = document.getElementById("resultCount");
+
+  if (counter) {
+    counter.textContent = `Showing ${shown} of ${total} quests`;
   }
 }
 
 function filterProjects(category, button) {
   document.querySelectorAll(".filter-button").forEach((filterButton) => {
     filterButton.classList.remove("active");
+    filterButton.setAttribute("aria-pressed", "false");
   });
 
   button.classList.add("active");
+  button.setAttribute("aria-pressed", "true");
 
   document.querySelectorAll(".quest-card").forEach((card) => {
     const cardCategories = card.getAttribute("data-category") || "";
@@ -451,15 +501,41 @@ function filterProjects(category, button) {
 
     card.classList.toggle("hidden", !shouldShow);
   });
+
+  updateResultCount();
+  addScore(25);
 }
 
 function setupSectionNavigation() {
-  document.querySelectorAll("[data-section]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const sectionId = button.getAttribute("data-section");
-      showSection(sectionId);
+  const tabs = [...document.querySelectorAll("[data-section]")];
+  const moves = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => showSection(tab.dataset.section));
+
+    tab.addEventListener("keydown", (event) => {
+      let next = null;
+
+      if (event.key in moves) {
+        next = (index + moves[event.key] + tabs.length) % tabs.length;
+      } else if (event.key === "Home") {
+        next = 0;
+      } else if (event.key === "End") {
+        next = tabs.length - 1;
+      }
+
+      if (next !== null) {
+        event.preventDefault();
+        showSection(tabs[next].dataset.section, { focus: true });
+      }
     });
   });
+
+  const fromHash = window.location.hash.slice(1);
+
+  if (tabs.some((tab) => tab.dataset.section === fromHash)) {
+    showSection(fromHash, { updateHash: false });
+  }
 }
 
 function setupProjectFilters() {
@@ -497,6 +573,10 @@ const SPARKLE_DISTANCE = 65;
 let lastSparkleTime = 0;
 
 function setupSparkles() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
   document.addEventListener("mousemove", (event) => {
     const now = Date.now();
 
@@ -516,8 +596,8 @@ function createSparkle(x, y) {
   const sparkle = document.createElement("div");
   sparkle.className = "sparkle";
 
-  const hue = Math.floor(Math.random() * 360);
-  const color = `hsl(${hue}, 100%, 70%)`;
+  const palette = ["#ff3b5f", "#5dff8f", "#f8f32b", "#ffffff"];
+  const color = palette[Math.floor(Math.random() * palette.length)];
   sparkle.style.color = color;
   sparkle.style.background = color;
 
@@ -568,12 +648,275 @@ function setupChristmasLights() {
 }
 
 /* =========================
+   Pixel Title (5x7 bitmap letters)
+   To use another letter, add its 7 rows to GLYPHS.
+========================= */
+const GLYPHS = {
+  A: [".###.", "#...#", "#...#", "#####", "#...#", "#...#", "#...#"],
+  E: ["#####", "#....", "#....", "####.", "#....", "#....", "#####"],
+  L: ["#....", "#....", "#....", "#....", "#....", "#....", "#####"],
+  N: ["#...#", "##..#", "#.#.#", "#..##", "#...#", "#...#", "#...#"],
+  O: [".###.", "#...#", "#...#", "#...#", "#...#", "#...#", ".###."],
+  P: ["####.", "#...#", "#...#", "####.", "#....", "#....", "#...."],
+  R: ["####.", "#...#", "#...#", "####.", "#.#..", "#..#.", "#...#"],
+  X: ["#...#", "#...#", ".#.#.", "..#..", ".#.#.", "#...#", "#...#"],
+  Y: ["#...#", "#...#", ".#.#.", "..#..", "..#..", "..#..", "..#.."],
+  S: [".####", "#....", "#....", ".###.", "....#", "....#", "####."],
+  T: ["#####", "..#..", "..#..", "..#..", "..#..", "..#..", "..#.."],
+  ":": [".", "#", "#", ".", "#", "#", "."],
+};
+
+const PIXEL_FACES = {
+  xmas: { top: "#ffffff", bottom: "#ff3b5f", depth: ["#1f8a4c", "#176b3a", "#10502b", "#0a3a1e", "#052412"] },
+  cyan: { top: "#ffffff", bottom: "#36f9f6", depth: ["#1fb6d8", "#166aa1", "#12497a", "#0c2f56", "#071a38"] },
+  gold: { top: "#fff7a8", bottom: "#ff9f1c", depth: ["#ff6b1a", "#ff2a6d", "#c91873", "#64125d", "#160a35"] },
+};
+
+function buildPixelSvg(text, faceName, id) {
+  const NS = "http://www.w3.org/2000/svg";
+  const face = PIXEL_FACES[faceName] || PIXEL_FACES.cyan;
+  let x = 0;
+  let d = "";
+
+  for (const ch of text.toUpperCase()) {
+    const glyph = GLYPHS[ch];
+
+    if (!glyph) {
+      x += 3;
+      continue;
+    }
+
+    glyph.forEach((row, y) => {
+      [...row].forEach((cell, i) => {
+        if (cell === "#") {
+          d += `M${x + i} ${y}h1v1h-1z`;
+        }
+      });
+    });
+
+    x += glyph[0].length + 1;
+  }
+
+  const step = 0.5;
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", `-0.5 -0.5 ${x - 1 + step * 5 + 1} ${7 + step * 5 + 1}`);
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("class", `pixel-svg ${faceName}`);
+
+  const gradient = document.createElementNS(NS, "linearGradient");
+  gradient.id = id;
+  gradient.setAttribute("x1", "0");
+  gradient.setAttribute("y1", "0");
+  gradient.setAttribute("x2", "0");
+  gradient.setAttribute("y2", "1");
+
+  [[0, face.top], [1, face.bottom]].forEach(([offset, color]) => {
+    const stop = document.createElementNS(NS, "stop");
+    stop.setAttribute("offset", offset);
+    stop.setAttribute("stop-color", color);
+    gradient.appendChild(stop);
+  });
+
+  svg.appendChild(gradient);
+
+  for (let i = face.depth.length; i >= 0; i--) {
+    const path = document.createElementNS(NS, "path");
+    path.setAttribute("d", d);
+    path.setAttribute("transform", `translate(${i * step} ${i * step})`);
+    path.setAttribute("fill", i === 0 ? `url(#${id})` : face.depth[i - 1]);
+    svg.appendChild(path);
+  }
+
+  return svg;
+}
+
+function renderPixelTitles() {
+  document.querySelectorAll("[data-pixel]").forEach((element, index) => {
+    const text = element.dataset.pixel;
+    element.replaceChildren(
+      createTextElement("span", text, "sr-only"),
+      buildPixelSvg(text, element.dataset.face, `pixel-face-${index}`)
+    );
+  });
+}
+
+/* =========================
+   Score, Portrait, Start Screen
+========================= */
+let score = 3190;
+
+function addScore(points) {
+  score += points;
+  const counter = document.getElementById("score");
+
+  if (counter) {
+    counter.textContent = String(score).padStart(5, "0");
+  }
+}
+
+const SPRITE = [
+  ".....rrr.WW.",
+  "...rrrrrrrr.",
+  "..rrrrrrrrr.",
+  ".wwwwwwwwwww",
+  ".HsssssssssH",
+  "yHsessssesHy",
+  "yHssssssssHy",
+  ".yssssssssy.",
+  "...ssssss...",
+  "..cccccccc..",
+  ".cccccccccc.",
+  "sccccccccccs",
+  ".cccddddccc.",
+  "..pppppppp..",
+  "..ppp..ppp..",
+  "..www..www..",
+];
+
+const SPRITE_COLORS = { H: "#7a3cff", r: "#ff3b5f", W: "#ffffff", s: "#ffcf9e", e: "#05060f", c: "#ff3b5f", d: "#c01f3f", y: "#f8f32b", p: "#2d3a9a", w: "#f4f6ff" };
+
+function renderPortrait() {
+  const host = document.getElementById("portrait");
+
+  if (!host) {
+    return;
+  }
+
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  const paths = {};
+
+  svg.setAttribute("viewBox", `0 0 12 ${SPRITE.length}`);
+
+  SPRITE.forEach((row, y) => {
+    [...row].forEach((ch, x) => {
+      if (SPRITE_COLORS[ch]) {
+        paths[ch] = (paths[ch] || "") + `M${x} ${y}h1v1h-1z`;
+      }
+    });
+  });
+
+  Object.entries(paths).forEach(([ch, d]) => {
+    const path = document.createElementNS(NS, "path");
+    path.setAttribute("d", d);
+    path.setAttribute("fill", SPRITE_COLORS[ch]);
+    svg.appendChild(path);
+  });
+
+  host.replaceChildren(svg);
+}
+
+function setupStartScreen() {
+  const screen = document.getElementById("startScreen");
+
+  if (!screen) {
+    return;
+  }
+
+  let seen = false;
+
+  try {
+    seen = sessionStorage.getItem("started") === "1";
+  } catch (error) {
+    seen = false;
+  }
+
+  if (seen || window.location.hash) {
+    screen.remove();
+    return;
+  }
+
+  let started = false;
+  document.body.classList.add("locked");
+
+  const start = () => {
+    if (started) {
+      return;
+    }
+
+    started = true;
+
+    try {
+      sessionStorage.setItem("started", "1");
+    } catch (error) {
+      // Storage can be unavailable; the screen simply shows again next visit.
+    }
+
+    document.removeEventListener("keydown", onKey);
+    screen.classList.add("leaving");
+    document.body.classList.remove("locked");
+    addScore(100);
+    window.setTimeout(() => screen.remove(), 400);
+  };
+
+  const onKey = (event) => {
+    if (event.key !== "Tab") {
+      start();
+    }
+  };
+
+  screen.addEventListener("click", start);
+  document.addEventListener("keydown", onKey);
+  document.getElementById("startButton").focus();
+}
+
+/* =========================
+   Christmas: snowfall and countdown
+========================= */
+function setupSnow() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
+  const layer = document.createElement("div");
+  layer.className = "snow";
+  layer.setAttribute("aria-hidden", "true");
+
+  for (let i = 0; i < 45; i++) {
+    const flake = document.createElement("i");
+    const size = 2 + Math.floor(Math.random() * 3) * 2;
+
+    flake.style.left = `${Math.random() * 100}%`;
+    flake.style.width = `${size}px`;
+    flake.style.height = `${size}px`;
+    flake.style.opacity = String(0.5 + Math.random() * 0.5);
+    flake.style.animationDuration = `${8 + Math.random() * 10}s`;
+    flake.style.animationDelay = `-${Math.random() * 18}s`;
+    layer.appendChild(flake);
+  }
+
+  document.body.appendChild(layer);
+}
+
+function setupCountdown() {
+  const label = document.getElementById("xmas");
+
+  if (!label) {
+    return;
+  }
+
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let christmas = new Date(now.getFullYear(), 11, 25);
+
+  if (today > christmas) {
+    christmas = new Date(now.getFullYear() + 1, 11, 25);
+  }
+
+  const days = Math.round((christmas - today) / 86400000);
+  label.textContent = days === 0 ? "MERRY XMAS!" : `XMAS IN: ${days} DAYS`;
+}
+
+/* =========================
    App Start
 ========================= */
 function initApp() {
+  renderPixelTitles();
+  renderPortrait();
   renderEnemyFleet();
   renderFilters();
   renderProjects();
+  updateResultCount();
   renderStats();
   renderInventory();
   setupSectionNavigation();
@@ -581,6 +924,9 @@ function initApp() {
   setupMoreButtons();
   setupSparkles();
   setupChristmasLights();
+  setupSnow();
+  setupCountdown();
+  setupStartScreen();
 }
 
 document.addEventListener("DOMContentLoaded", initApp);

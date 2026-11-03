@@ -20,7 +20,7 @@ body {
 body {
   min-height: 100vh;
   min-height: 100svh;
-  font-family: "Courier New", Courier, monospace;
+  font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, "Courier New", monospace;
 }
 
 .dvd-stage {
@@ -39,7 +39,7 @@ body {
   width: clamp(120px, 17vw, 230px);
   aspect-ratio: 1.62 / 1;
   border: 3px solid var(--dvd-color);
-  border-radius: 22px;
+  border-radius: 0;
   color: var(--dvd-color);
   background: rgba(0, 0, 0, 0.28);
   box-shadow:
@@ -83,4 +83,29 @@ body {
     top: 50%;
     transform: translate(-50%, -50%) !important;
   }
+}
+
+.not-found {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 2;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 10px 16px;
+  color: #d3d8f5;
+  text-align: center;
+  background: rgba(5, 5, 11, 0.85);
+  border: 2px solid rgba(54, 249, 246, 0.4);
+  transform: translateX(-50%);
+}
+
+.not-found a {
+  color: #f8f32b;
+  font-weight: 700;
+}
+
+.not-found a:focus-visible {
+  outline: 3px solid #f8f32b;
+  outline-offset: 3px;
 }
