@@ -68,6 +68,18 @@ const projects = [
     links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Research" }],
   },
   {
+    title: "Time and Task Tracker Research Project",
+    type: "Research / Full-Stack Collaboration",
+    categories: ["research", "fullstack"],
+    description:
+      "Research collaboration with UC Merced faculty, students, and CSED for a time and task tracker supporting weekly team meetings, decisions, attendance, and project progress for I2G students.",
+    tech: "Angular, FastAPI, MongoDB, ShareDB, Automerge, OT/CRDTs",
+    moreId: "ucm-task-tracker-more",
+    more:
+      "Collaborated with UC Merced faculty, students, and CSED on a research-driven application for weekly team meeting minutes, tasks, decisions, attendance, and project progress for students in the I2G program. Developed and evaluated an Angular, FastAPI, and MongoDB architecture emphasizing real-time collaboration, version history, structured data collection, and secure access to team and confidential information. Researched and prototyped ShareDB operational transformation (OT), Automerge CRDTs, and MongoDB change streams for synchronization, conflict resolution, and audit-history strategies.",
+    links: [{ label: "Project Page", url: "https://csed-ucm.github.io/projects/t4/" }],
+  },
+  {
     title: "Mock Instagram Frontend",
     type: "React / Vite Frontend",
     categories: ["frontend", "fullstack"],
