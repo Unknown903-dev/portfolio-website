@@ -118,7 +118,7 @@ const projects = [
     type: "Python Automation",
     categories: ["fullstack"],
     description:
-      "A collection of automation projects, including scripts that practice workflow automation concepts.",
+      "A Canvas-based Python automation tool for inviting students to course communities with safer, API-driven messaging instead of fragile browser automation.",
     links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/email-automation-scripts" }],
   },
   {
