@@ -68,6 +68,18 @@ const projects = [
     links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Research" }],
   },
   {
+    title: "AI Patient Voice Tester",
+    type: "Healthcare AI / Voice Automation",
+    categories: ["research", "fullstack"],
+    description:
+      "Built a Python voice-testing system that places real outbound calls to simulate patient conversations and evaluate healthcare AI agent behavior under normal and adversarial scenarios.",
+    tech: "Python, Twilio, FastAPI, WebSockets, Gemini Live, Voice AI, Healthcare Testing",
+    moreId: "patient-call-more",
+    more:
+      "Created an automated Python voice bot for testing healthcare phone agents by placing real outbound calls and simulating realistic patient interactions using Gemini Live. The system supports multi-turn conversations, scenario-driven patient behavior, barge-in and interruption handling, persistent conversation memory, structured test completion, and recorded transcript artifacts. It was designed to evaluate both normal workflow behavior and edge-case scenarios such as identity verification failures, prompt injection attempts, and privacy/consistency issues in patient-facing AI agents.",
+    links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Ai-Automated-Patient-Call" }],
+  },
+  {
     title: "Time and Task Tracker Research Project",
     type: "Research / Full-Stack Collaboration",
     categories: ["research", "fullstack"],
