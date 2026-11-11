@@ -29,5 +29,5 @@ Alex is a hands-on software developer who has led team projects from frontend an
 - LinkedIn: [Alex Jimenez](https://www.linkedin.com/in/alex-jimenez-525a86241/)
 - Portfolio: [Alex's portfolio](/)
 - Tech resume: [Download tech resume](/resume.pdf)
-- Restaurant resume: [Download restaurant resume](/resume_r.pdf)
+- Restaurant resume: [View restaurant resume](/resume_r)
 - UC Merced/CSED research project: [Time and Task Tracker](https://csed-ucm.github.io/projects/t4/)
