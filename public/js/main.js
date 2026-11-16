@@ -103,6 +103,25 @@ const projects = [
     links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Ai-Automated-Patient-Call" }],
   },
   {
+    title: "email-automation-scripts",
+    type: "Python Automation",
+    categories: ["fullstack", "favorites"],
+    description:
+      "A Canvas-based Python automation tool for inviting students to course communities with safer, API-driven messaging instead of fragile browser automation.",
+    links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/email-automation-scripts" }],
+  },
+  {
+    title: "UC Merced Hub / Honeypot Project",
+    type: "Deployed Web / Cybersecurity Project",
+    categories: ["cybersecurity", "frontend"],
+    description:
+      "Contributed to a deployed web project connected to UC Merced Hub, with work focused on honeypot/security experimentation and frontend functionality.",
+    links: [
+      { label: "View Quest", url: "https://github.com/Unknown903-dev/honeypot" },
+      { label: "Live Site", url: "https://www.ucmercedhub.com" },
+    ],
+  },
+  {
     title: "Research Paper",
     type: "AI Security Research Paper",
     categories: ["research", "cybersecurity"],
@@ -138,31 +157,12 @@ const projects = [
     links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Codepath" }],
   },
   {
-    title: "UC Merced Hub / Honeypot Project",
-    type: "Deployed Web / Cybersecurity Project",
-    categories: ["cybersecurity", "frontend"],
-    description:
-      "Contributed to a deployed web project connected to UC Merced Hub, with work focused on honeypot/security experimentation and frontend functionality.",
-    links: [
-      { label: "View Quest", url: "https://github.com/Unknown903-dev/honeypot" },
-      { label: "Live Site", url: "https://www.ucmercedhub.com" },
-    ],
-  },
-  {
     title: "bar-chart-logs",
     type: "Data Visualization",
     categories: ["cybersecurity", "coursework"],
     description:
       "Analyzes visited endpoints and displays the top 20 endpoints in a bar chart using notebook-based analysis.",
     links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/bar-chart-logs" }],
-  },
-  {
-    title: "email-automation-scripts",
-    type: "Python Automation",
-    categories: ["fullstack", "favorites"],
-    description:
-      "A Canvas-based Python automation tool for inviting students to course communities with safer, API-driven messaging instead of fragile browser automation.",
-    links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/email-automation-scripts" }],
   },
   {
     title: "Algorithms",
