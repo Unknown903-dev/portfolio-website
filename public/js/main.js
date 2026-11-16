@@ -21,6 +21,7 @@ const enemyPositions = [
 
 const filters = [
   { label: "All", value: "all" },
+  { label: "Favorites", value: "favorites" },
   { label: "Full-Stack", value: "fullstack" },
   { label: "Algorithms", value: "algorithms" },
   { label: "Cybersecurity", value: "cybersecurity" },
@@ -33,7 +34,7 @@ const projects = [
   {
     title: "Production Tracking Mobile App",
     type: "Industry Capstone / Group Mobile App",
-    categories: ["fullstack"],
+    categories: ["fullstack", "favorites"],
     featured: true,
     role: "Team Lead, Full-Stack Developer, DevOps, and QA Tester",
     description:
@@ -48,7 +49,7 @@ const projects = [
   {
     title: "Learn Crypto",
     type: "Deployed Educational Web App / Interactive Cryptography Labs",
-    categories: ["cybersecurity", "frontend"],
+    categories: ["cybersecurity", "frontend", "favorites"],
     featured: true,
     role: "Designer and Developer",
     description:
@@ -80,7 +81,7 @@ const projects = [
   {
     title: "Time and Task Tracker Research Project",
     type: "Research / Full-Stack Collaboration",
-    categories: ["research", "fullstack"],
+    categories: ["research", "fullstack", "favorites"],
     description:
       "Research collaboration with UC Merced faculty, students, and CSED for a time and task tracker supporting weekly team meetings, decisions, attendance, and project progress for I2G students.",
     tech: "Angular, FastAPI, MongoDB, ShareDB, Automerge, OT/CRDTs",
@@ -92,7 +93,7 @@ const projects = [
   {
     title: "AI Patient Voice Tester",
     type: "Healthcare AI / Voice Automation",
-    categories: ["research", "fullstack"],
+    categories: ["research", "fullstack", "favorites"],
     description:
       "Built a Python voice-testing system that places real outbound calls to simulate patient conversations and evaluate healthcare AI agent behavior under normal and adversarial scenarios.",
     tech: "Python, Twilio, FastAPI, WebSockets, Gemini Live, Voice AI, Healthcare Testing",
@@ -158,7 +159,7 @@ const projects = [
   {
     title: "email-automation-scripts",
     type: "Python Automation",
-    categories: ["fullstack"],
+    categories: ["fullstack", "favorites"],
     description:
       "A Canvas-based Python automation tool for inviting students to course communities with safer, API-driven messaging instead of fragile browser automation.",
     links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/email-automation-scripts" }],

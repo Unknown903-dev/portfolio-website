@@ -965,6 +965,7 @@ body::after {
 [data-kind="algorithms"], [data-filter="algorithms"] { --kind: var(--orange); }
 [data-kind="research"], [data-filter="research"] { --kind: #b967ff; }
 [data-kind="coursework"], [data-filter="coursework"] { --kind: #7cff6b; }
+[data-filter="favorites"] { --kind: var(--yellow); }
 
 .filter-button { border-left: 8px solid var(--kind, var(--line)); }
 .filter-button.active { background: var(--kind, var(--cyan)); border-color: var(--kind, var(--cyan)); }
