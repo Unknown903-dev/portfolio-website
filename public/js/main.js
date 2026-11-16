@@ -60,6 +60,24 @@ const projects = [
       {label: "Live Site", url: "https://algorithms.z3rø.com" }],
   },
   {
+    title: "Learn Crypto",
+    type: "Deployed Educational Web App / Interactive Cryptography Labs",
+    categories: ["cybersecurity", "frontend"],
+    featured: true,
+    role: "Designer and Developer",
+    description:
+      "Built an interactive cryptography learning site where learners can experiment with probability, perfect secrecy, one-time pads, attack simulations, CPA security, block cipher modes, message authentication codes, and hash functions directly in the browser.",
+    tech:
+      "React 19, React Router 7, Vite 8, Web Crypto API, JavaScript, Responsive CSS",
+    moreId: "learn-crypto-more",
+    more:
+      "Created 11 lesson, lab, quiz, and resource experiences with immediate visual feedback, including reused-pad crib dragging, an encryption-oracle challenge, CBC and CTR data-flow visualizations, HMAC tampering demonstrations, and SHA-256 collision exercises. Kept the static app privacy-friendly with no backend, accounts, cookies, analytics, or learner tracking, and added responsive, keyboard-accessible controls and deployment security headers.",
+    links: [
+      { label: "View Quest", url: "https://github.com/Unknown903-dev/Learn-Cryptography" },
+      { label: "Live Site", url: "https://learncrypto.z3rø.com" },
+    ],
+  },
+  {
     title: "Research",
     type: "AI Security Research",
     categories: ["research", "cybersecurity"],
