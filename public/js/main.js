@@ -46,20 +46,6 @@ const projects = [
   },
 
   {
-    title: "Algorithm Finder Website",
-    type: "Deployed Web App / Algorithm Learning Tool",
-    categories: ["frontend", "fullstack", "coursework", "algorithms"],
-    featured: true,
-    role: "Designer and Developer",
-    description:
-      "Built a deployed interactive website that helps users identify which algorithm to use, study algorithm concepts, view copyable C++ examples, and practice with quiz questions.",
-    tech:
-      "HTML, CSS, JavaScript, C++, Responsive UI",
-    links: [
-      {label: "View Quest", url: "https://github.com/Unknown903-dev/algorithm-finder"},
-      {label: "Live Site", url: "https://algorithms.z3rø.com" }],
-  },
-  {
     title: "Learn Crypto",
     type: "Deployed Educational Web App / Interactive Cryptography Labs",
     categories: ["cybersecurity", "frontend"],
@@ -78,12 +64,30 @@ const projects = [
     ],
   },
   {
-    title: "Research",
-    type: "AI Security Research",
-    categories: ["research", "cybersecurity"],
+    title: "Algorithm Finder Website",
+    type: "Deployed Web App / Algorithm Learning Tool",
+    categories: ["frontend", "fullstack", "coursework", "algorithms"],
+    featured: true,
+    role: "Designer and Developer",
     description:
-      "Evaluated prompt injection robustness in an open-source instruction-tuned LLM by comparing attack success rates with and without a system policy prompt.",
-    links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Research" }],
+      "Built a deployed interactive website that helps users identify which algorithm to use, study algorithm concepts, view copyable C++ examples, and practice with quiz questions.",
+    tech:
+      "HTML, CSS, JavaScript, C++, Responsive UI",
+    links: [
+      {label: "View Quest", url: "https://github.com/Unknown903-dev/algorithm-finder"},
+      {label: "Live Site", url: "https://algorithms.z3rø.com" }],
+  },
+  {
+    title: "Time and Task Tracker Research Project",
+    type: "Research / Full-Stack Collaboration",
+    categories: ["research", "fullstack"],
+    description:
+      "Research collaboration with UC Merced faculty, students, and CSED for a time and task tracker supporting weekly team meetings, decisions, attendance, and project progress for I2G students.",
+    tech: "Angular, FastAPI, MongoDB, ShareDB, Automerge, OT/CRDTs",
+    moreId: "ucm-task-tracker-more",
+    more:
+      "Collaborated with UC Merced faculty, students, and CSED on a research-driven application for weekly team meeting minutes, tasks, decisions, attendance, and project progress for students in the I2G program. Developed and evaluated an Angular, FastAPI, and MongoDB architecture emphasizing real-time collaboration, version history, structured data collection, and secure access to team and confidential information. Researched and prototyped ShareDB operational transformation (OT), Automerge CRDTs, and MongoDB change streams for synchronization, conflict resolution, and audit-history strategies.",
+    links: [{ label: "Project Page", url: "https://csed-ucm.github.io/projects/t4/" }],
   },
   {
     title: "AI Patient Voice Tester",
@@ -98,16 +102,12 @@ const projects = [
     links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Ai-Automated-Patient-Call" }],
   },
   {
-    title: "Time and Task Tracker Research Project",
-    type: "Research / Full-Stack Collaboration",
-    categories: ["research", "fullstack"],
+    title: "Research Paper",
+    type: "AI Security Research Paper",
+    categories: ["research", "cybersecurity"],
     description:
-      "Research collaboration with UC Merced faculty, students, and CSED for a time and task tracker supporting weekly team meetings, decisions, attendance, and project progress for I2G students.",
-    tech: "Angular, FastAPI, MongoDB, ShareDB, Automerge, OT/CRDTs",
-    moreId: "ucm-task-tracker-more",
-    more:
-      "Collaborated with UC Merced faculty, students, and CSED on a research-driven application for weekly team meeting minutes, tasks, decisions, attendance, and project progress for students in the I2G program. Developed and evaluated an Angular, FastAPI, and MongoDB architecture emphasizing real-time collaboration, version history, structured data collection, and secure access to team and confidential information. Researched and prototyped ShareDB operational transformation (OT), Automerge CRDTs, and MongoDB change streams for synchronization, conflict resolution, and audit-history strategies.",
-    links: [{ label: "Project Page", url: "https://csed-ucm.github.io/projects/t4/" }],
+      "Evaluated prompt injection robustness in an open-source instruction-tuned LLM by comparing attack success rates with and without a system policy prompt.",
+    links: [{ label: "View Quest", url: "https://github.com/Unknown903-dev/Research" }],
   },
   {
     title: "Mock Instagram Frontend",
